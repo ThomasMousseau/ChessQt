@@ -39,19 +39,20 @@ CalcWindow::CalcWindow(QWidget* parent) :
 	// ------------------------------------------------------------
 	// Version avec lambdas:
 	{
-		auto layout = new QHBoxLayout(); // Pas possible de donner directement le parent au layout (le constructeur prend un QWidget* et un layout n'en est pas un; on ne peut pas mettre un parent qui a déjà un layout; si on met on parent temporaire, addLayout n'accepte pas de changer le parent).
+		auto layout = new QGridLayout(); // Pas possible de donner directement le parent au layout (le constructeur prend un QWidget* et un layout n'en est pas un; on ne peut pas mettre un parent qui a déjà un layout; si on met on parent temporaire, addLayout n'accepte pas de changer le parent).
 		layoutPrincipal->addLayout(layout);
 
 		layout->setSpacing(0);
-		for (int i : range(10))
-			layout->addWidget(nouveauBouton(QString::number(i), [this,i]() { calc_.ajouterChiffre(i); }));
-
-		layout->addSpacing(10);
-		layout->addWidget(nouveauBouton("+", &Calc::operationPlus));
-		layout->addWidget(nouveauBouton("-", &Calc::operationMoins));
-		layout->addWidget(nouveauBouton("=", &Calc::operationEgal));
-
-		layout->addSpacing(10);
+		for (int i : range(8))
+			for (int j : range(8))
+			{
+				auto button = new QPushButton();
+				const QSize BUTTON_SIZE = QSize(40, 40);
+				button->setFixedSize(BUTTON_SIZE);
+				layout->addWidget(button, i, j, 1, 1);
+				
+			}
+		//layout->addSpacing(0);
 		auto label = new QLabel(this);
 		label->setMinimumWidth(100);
 		// On pourrait connecter un slot (on en a un pour l'autre exemple) mais ici c'était simple comme ça et c'est la version avec lambdas.
@@ -61,61 +62,61 @@ CalcWindow::CalcWindow(QWidget* parent) :
 		layout->addWidget(label);
 	}
 
-	// ------------------------------------------------------------
-	// Version avec QButtonGroup:
-	{
-		auto layout = new QHBoxLayout();
-		layoutPrincipal->addLayout(layout);
+	//// ------------------------------------------------------------
+	//// Version avec QButtonGroup:
+	//{
+	//	auto layout = new QGridLayout();
+	//	layoutPrincipal->addLayout(layout);
 
-		layout->setSpacing(0);
-		auto groupeBoutons = new QButtonGroup(this);
-		for (int i : range(10)) {
-			auto bouton = nouveauBouton(QString::number(i));
-			groupeBoutons->addButton(bouton, i); // L'ID du bouton est i (doit être un entier).
-			layout->addWidget(bouton);
-		}
-		#if QT_VERSION >= QT_VERSION_CHECK(5,15,0)  // Le nom du signal idClicked existe depuis Qt 5.15
-		QObject::connect(groupeBoutons, &QButtonGroup::idClicked, &calc_, &Calc::ajouterChiffre); // ajouterChiffre prend un int, donc le ID du bouton est bon directement.
-		#else
-		QObject::connect(groupeBoutons, SIGNAL(buttonClicked(int)), &calc_, SLOT(ajouterChiffre(int)));
-		#endif
+	//	layout->setSpacing(0);
+	//	auto groupeBoutons = new QButtonGroup(this);
+	//	for (int i : range(10)) {
+	//		auto bouton = nouveauBouton(QString::number(i));
+	//		groupeBoutons->addButton(bouton, i); // L'ID du bouton est i (doit être un entier).
+	//		layout->addWidget(bouton);
+	//	}
+	//	#if QT_VERSION >= QT_VERSION_CHECK(5,15,0)  // Le nom du signal idClicked existe depuis Qt 5.15
+	//	QObject::connect(groupeBoutons, &QButtonGroup::idClicked, &calc_, &Calc::ajouterChiffre); // ajouterChiffre prend un int, donc le ID du bouton est bon directement.
+	//	#else
+	//	QObject::connect(groupeBoutons, SIGNAL(buttonClicked(int)), &calc_, SLOT(ajouterChiffre(int)));
+	//	#endif
 
-		layout->addSpacing(10);
-		layout->addWidget(nouveauBouton("+", &Calc::operationPlus));
-		layout->addWidget(nouveauBouton("-", &Calc::operationMoins));
-		layout->addWidget(nouveauBouton("=", &Calc::operationEgal));
+	//	/*layout->addSpacing(10);
+	//	layout->addWidget(nouveauBouton("+", &Calc::operationPlus));
+	//	layout->addWidget(nouveauBouton("-", &Calc::operationMoins));
+	//	layout->addWidget(nouveauBouton("=", &Calc::operationEgal));*/
 
-		layout->addSpacing(10);
-		auto label = new QLabel(this);
-		affichage_ = label;
-		label->setMinimumWidth(100);
-		QObject::connect(&calc_, &Calc::valeurChangee, this, &CalcWindow::changerValeurAffichee);
-		layout->addWidget(label);
-	}
+	//	//layout->addSpacing(10);
+	//	auto label = new QLabel(this);
+	//	affichage_ = label;
+	//	label->setMinimumWidth(100);
+	//	QObject::connect(&calc_, &Calc::valeurChangee, this, &CalcWindow::changerValeurAffichee);
+	//	layout->addWidget(label);
+	//}
 
-	// ------------------------------------------------------------
-	// Version avec setProperty:
-	{
-		auto layout = new QHBoxLayout();
-		layoutPrincipal->addLayout(layout);
+	//// ------------------------------------------------------------
+	//// Version avec setProperty:
+	//{
+	//	auto layout = new QHBoxLayout();
+	//	layoutPrincipal->addLayout(layout);
 
-		layout->setSpacing(0);
-		for (int i : range(10)) {
-			auto bouton = nouveauBouton(QString::number(i));
-			// On donne un nom à la propriété, et on lui donne une valeur QVariant (comme dans les notes de cours) d'un type quelconque (doit enregistrer le type avec Q_DECLARE_METATYPE(LeType) si ce n'est pas un type déjà connu de Qt).
-			bouton->setProperty("chiffre", QVariant::fromValue<int>(i));
-			QObject::connect(bouton, &QPushButton::clicked, this, &CalcWindow::chiffreAppuye);
-			layout->addWidget(bouton);
-		}
+	//	layout->setSpacing(0);
+	//	for (int i : range(10)) {
+	//		auto bouton = nouveauBouton(QString::number(i));
+	//		// On donne un nom à la propriété, et on lui donne une valeur QVariant (comme dans les notes de cours) d'un type quelconque (doit enregistrer le type avec Q_DECLARE_METATYPE(LeType) si ce n'est pas un type déjà connu de Qt).
+	//		bouton->setProperty("chiffre", QVariant::fromValue<int>(i));
+	//		QObject::connect(bouton, &QPushButton::clicked, this, &CalcWindow::chiffreAppuye);
+	//		layout->addWidget(bouton);
+	//	}
 
-		layout->addSpacing(10);
-		layout->addWidget(nouveauBouton("+", &Calc::operationPlus));
-		layout->addWidget(nouveauBouton("-", &Calc::operationMoins));
-		layout->addWidget(nouveauBouton("=", &Calc::operationEgal));
+	//	layout->addSpacing(10);
+	//	layout->addWidget(nouveauBouton("+", &Calc::operationPlus));
+	//	layout->addWidget(nouveauBouton("-", &Calc::operationMoins));
+	//	layout->addWidget(nouveauBouton("=", &Calc::operationEgal));
 
-		// On ne met pas un autre affichage, on en a déjà deux versions différentes.
-		layout->addSpacing(110);
-	}
+	//	// On ne met pas un autre affichage, on en a déjà deux versions différentes.
+	//	layout->addSpacing(110);
+	//}
 
 	setCentralWidget(widgetPrincipal);
 	setWindowTitle("Calculatrice simple");
