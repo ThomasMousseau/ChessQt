@@ -1,13 +1,36 @@
 ﻿#pragma once
+#include <tuple>
+using namespace std;
 
-using namespace std; // Dans ce cours on accepte le using namespace std dans le .hpp .
+enum Type
+{
+	PAWN,
+	KNIGHT,
+	BISHOP,
+	ROOK,
+	QUEEN,
+	KING
+};
+
+enum Color
+{
+	WHITE,
+	BLACK
+};
 
 class Piece {
 
 public:
-	Piece();
+	Piece(Type, Color);
 	virtual ~Piece() = default;
-protected:
+	virtual void move();
 
+	Type getType() const { return type_; }
+	Color getColor() const { return color_; }
+
+protected:
+	Type type_;
+	Color color_;
+	tuple<char, int> position_;
 
 };
