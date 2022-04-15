@@ -3,6 +3,8 @@
 
 #include <QApplication>
 
+#include "ChessWindow.h"
+
 #if __has_include("bibliotheque_cours.hpp")
 #include "bibliotheque_cours.hpp"
 #define BIBLIOTHEQUE_COURS_INCLUS
@@ -34,8 +36,20 @@ int main(int argc, char *argv[])
 	QApplication app(argc, argv);
 	initialiserBibliothequeCours(argc, argv);
 
+	ChessWindow chessWindow;
+	QGraphicsScene* scene = new QGraphicsScene();
+	QGraphicsView* view = new QGraphicsView(scene);
+	chessWindow.setCentralWidget(view);
+	QBrush* brush = new QBrush(Qt::lightGray, Qt::SolidPattern);
+	view->setBackgroundBrush(*brush);
+
+
+	chessWindow.CreateBoard(scene);
+	chessWindow.show();
+
+
 	//Board();
-	CalcWindow calcWindow;
-	calcWindow.show();
+	//CalcWindow calcWindow;
+	//calcWindow.show();
 	return app.exec();
 }

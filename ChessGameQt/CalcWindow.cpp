@@ -50,7 +50,6 @@ CalcWindow::CalcWindow(QWidget* parent) :
 				const QSize BUTTON_SIZE = QSize(40, 40);
 				button->setFixedSize(BUTTON_SIZE);
 				layout->addWidget(button, i, j, 1, 1);
-				
 			}
 		//layout->addSpacing(0);
 		auto label = new QLabel(this);
@@ -119,7 +118,7 @@ CalcWindow::CalcWindow(QWidget* parent) :
 	//}
 
 	setCentralWidget(widgetPrincipal);
-	setWindowTitle("Calculatrice simple");
+	setWindowTitle("Jeu d'échec");
 }
 
 
