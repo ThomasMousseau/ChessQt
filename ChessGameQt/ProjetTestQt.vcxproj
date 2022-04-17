@@ -31,7 +31,7 @@
     <Import Project="$(QtMsBuild)\qt_defaults.props" />
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
-    <QtInstall>6.4</QtInstall>
+    <QtInstall>6.2.4_msvc2019_64</QtInstall>
     <QtModules>core;widgets</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
@@ -124,7 +124,6 @@
     <ClCompile Include="Rook.cpp" />
     <ClCompile Include="Rook.h" />
     <ClCompile Include="Tile.cpp" />
-    <ClCompile Include="Tile.h" />
     <ClCompile Include="TestCalc.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -134,6 +133,7 @@
   <ItemGroup>
     <ClInclude Include="Bishop.h" />
     <ClInclude Include="Board.h" />
+    <ClInclude Include="Tile.h" />
     <QtMoc Include="ChessWindow.h" />
     <ClInclude Include="King.h" />
     <ClInclude Include="Piece.h" />

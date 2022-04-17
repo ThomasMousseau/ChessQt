@@ -8,8 +8,8 @@
 
 using namespace std;
 
-class Piece;
-class Tile;
+//class Piece;
+//class Tile;
 
 
 class Board {

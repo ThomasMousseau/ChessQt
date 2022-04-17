@@ -1,10 +1,9 @@
 ﻿#pragma once
 
-#ifndef PIECE_H
-#define PIECE_H
 
 #include <tuple>
 #include "Board.h"
+
 using namespace std;
 
 enum Type
@@ -42,4 +41,3 @@ protected:
 
 };
 
-#endif
