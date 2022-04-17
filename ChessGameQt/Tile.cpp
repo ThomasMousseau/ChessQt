@@ -1,5 +1,4 @@
 ﻿#include <iostream>
-#include <memory>
 #include "Tile.h"
 
 Piece* Tile::getPiece() const

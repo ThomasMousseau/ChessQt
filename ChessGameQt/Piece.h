@@ -1,21 +1,28 @@
 ﻿#pragma once
+
+#ifndef PIECE_H
+#define PIECE_H
+
 #include <tuple>
+#include "Board.h"
 using namespace std;
 
 enum Type
 {
+	KING,
 	PAWN,
 	KNIGHT,
-	BISHOP,
 	ROOK,
 	QUEEN,
-	KING
+	BISHOP
+	
 };
 
 enum Color
 {
-	WHITE,
-	BLACK
+	BLACK,
+	WHITE
+	
 };
 
 class Piece {
@@ -23,7 +30,7 @@ class Piece {
 public:
 	Piece(Type, Color);
 	virtual ~Piece() = default;
-	virtual void move();
+	virtual bool isMoving(const Board board, tuple<char, int>& position, tuple<char, int>& nextPosition) const;
 
 	Type getType() const { return type_; }
 	Color getColor() const { return color_; }
@@ -34,3 +41,5 @@ protected:
 	tuple<char, int> position_;
 
 };
+
+#endif

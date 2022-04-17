@@ -5,7 +5,7 @@ class Bishop : public Piece
 {
 public:
 	Bishop(Color c);
-	void move() override;
+	bool isMoving(const Board board, tuple<char, int>& position, tuple<char, int>& nextPosition) const override;
 	~Bishop() override = default;
 private:
 

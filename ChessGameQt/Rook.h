@@ -5,7 +5,7 @@ class Rook : public Piece
 {
 public:
 	Rook(Color c);
-	void move() override;
+	bool isMoving(const Board board, tuple<char, int>& position, tuple<char, int>& nextPosition) const override;
 	~Rook() override = default;
 private:
 

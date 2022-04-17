@@ -9,6 +9,7 @@
 using namespace std;
 
 class Piece;
+class Tile;
 
 
 class Board {
@@ -20,6 +21,7 @@ public:
 
 	bool isOnBoard(const tuple<char, int>& position) const;
 	bool isOccupied(const tuple<char, int>& position) const;
+	bool isKnightMove(const tuple<char, int>& position, const tuple<char, int>& nextPosition) const;
 	bool isVerticalMove(const tuple<char, int>& position, const tuple<char, int>& nextPosition) const;
 	bool isHorizontalMove(const tuple<char, int>& position, const tuple<char, int>& nextPosition) const;
 	bool isDiagonalMove(const tuple<char, int>& position, const tuple<char, int>& nextPosition) const;
