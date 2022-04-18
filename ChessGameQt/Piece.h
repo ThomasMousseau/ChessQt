@@ -1,8 +1,6 @@
 ﻿#pragma once
-
-
 #include <tuple>
-#include "Board.h"
+//#include "Board.h"
 
 using namespace std;
 
@@ -29,7 +27,7 @@ class Piece {
 public:
 	Piece(Type, Color);
 	virtual ~Piece() = default;
-	virtual bool isMoving(const Board board, tuple<char, int>& position, tuple<char, int>& nextPosition) const;
+	//virtual bool isMoving(const Board board, tuple<char, int>& position, tuple<char, int>& nextPosition) const;
 
 	Type getType() const { return type_; }
 	Color getColor() const { return color_; }

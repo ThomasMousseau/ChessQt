@@ -17,7 +17,7 @@ public:
 	Board();
 
 	void printBoard();
-	Piece* getPiece(const tuple<char, int>& position) const;
+	//unique_ptr<Tile> getPiece(const tuple<char, int>& position) const;
 
 	bool isOnBoard(const tuple<char, int>& position) const;
 	bool isOccupied(const tuple<char, int>& position) const;
@@ -27,6 +27,11 @@ public:
 	bool isDiagonalMove(const tuple<char, int>& position, const tuple<char, int>& nextPosition) const;
 	int getMoveLength(const tuple<char, int>& position, const tuple<char, int>& nextPosition) const;
 	unique_ptr<Piece> setPiece(const tuple<char, int>& position, unique_ptr<Piece> piece);
+
+	//set of moves for all pieces
+	bool isKingMoveValid(const tuple<char, int>& position, const tuple<char, int>& nextPosition) const;
+	bool isRookMoveValid(const tuple<char, int>& position, const tuple<char, int>& nextPosition) const;
+	bool isBishopMoveValid(const tuple<char, int>& position, const tuple<char, int>& nextPosition) const;
 
 
 private:

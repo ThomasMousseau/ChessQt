@@ -53,11 +53,11 @@ bool Board::isOnBoard(const tuple<char, int>& coords) const
 		return true;
 	}
 }
-bool Board::isOccupied(const tuple<char, int>& coords) const
-{
-	return getPiece(coords) != nullptr;
-
-}
+//bool Board::isOccupied(const tuple<char, int>& coords) const
+//{
+//	return getPiece(coords) != nullptr;
+//
+//}
 bool Board::isVerticalMove(const tuple<char, int>& position, const tuple<char, int>& nextPosition) const
 {
 	return get<1>(position) == get<1>(nextPosition);
@@ -92,4 +92,30 @@ int Board::getMoveLength(const tuple<char, int>& position, const tuple<char, int
 	{
 		return -10; //erreur s<il rentre dans le else
 	}
+}
+
+bool Board::isKingMoveValid(const tuple<char, int>& position, const tuple<char, int>& nextPosition) const
+{
+	if (getMoveLength(position, nextPosition) == 1)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+bool Board::isBishopMoveValid(const tuple<char, int>& position, const tuple<char, int>& nextPosition) const
+{
+	if (isDiagonalMove(position, nextPosition))
+		return true;
+	return false;
+}
+
+bool Board::isRookMoveValid(const tuple<char, int>& position, const tuple<char, int>& nextPosition) const
+{
+	if (isVerticalMove(position, nextPosition))
+		return true;
+	return false;
 }
