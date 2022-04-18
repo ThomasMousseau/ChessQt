@@ -2,7 +2,7 @@
 
 Piece::Piece(Type type, Color color)
 {
-	type = type_;
-	color = color_;
+	type_ = type;
+	color_ = color;
 }
 

@@ -33,7 +33,7 @@ public:
 	bool isRookMoveValid(const tuple<char, int>& position, const tuple<char, int>& nextPosition) const;
 	bool isBishopMoveValid(const tuple<char, int>& position, const tuple<char, int>& nextPosition) const;
 
-
+	void populateTiles();
 private:
 
 	map<tuple<char, int>, unique_ptr<Tile>> tiles;

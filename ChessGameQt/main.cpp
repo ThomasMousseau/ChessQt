@@ -3,6 +3,7 @@
 
 #include <QApplication>
 
+#include "Board.h"
 #include "ChessWindow.h"
 
 #if __has_include("bibliotheque_cours.hpp")
@@ -43,12 +44,9 @@ int main(int argc, char *argv[])
 	QBrush* brush = new QBrush(Qt::lightGray, Qt::SolidPattern);
 	view->setBackgroundBrush(*brush);
 
-
 	chessWindow.CreateBoard(scene);
+	Board();
 	chessWindow.show();
-
-
-	//Board();
 	//CalcWindow calcWindow;
 	//calcWindow.show();
 	return app.exec();

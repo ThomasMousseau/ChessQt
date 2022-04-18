@@ -6,11 +6,10 @@
 
 Board::Board()
 {
-
-	createBishops();
-	createRooks();
+	populateTiles();
+	//createBishops();
+	//createRooks();
 	createKings();
-
 }
 
 void Board::createBishops()
@@ -69,8 +68,8 @@ bool Board::isHorizontalMove(const tuple<char, int>& position, const tuple<char,
 }
 bool Board::isDiagonalMove(const tuple<char, int>& position, const tuple<char, int>& nextPosition) const
 {
-	int vertDis = abs(get<0>(position) - get<0>(nextPosition));
-	int horDis = abs(get<1>(position) - get<1>(nextPosition));
+	const int vertDis = abs(get<0>(position) - get<0>(nextPosition));
+	const int horDis = abs(get<1>(position) - get<1>(nextPosition));
 
 	return vertDis == horDis;
 }
@@ -111,6 +110,22 @@ bool Board::isBishopMoveValid(const tuple<char, int>& position, const tuple<char
 	if (isDiagonalMove(position, nextPosition))
 		return true;
 	return false;
+}
+
+void Board::populateTiles()
+{
+	/*Tile tile(i, j);
+	scene->addWidget(tile.getButton());*/
+
+	for(char i = 'a'; i <= 'h'; i++)
+	{
+		for( int j = 1; j <= 8; j++)
+		{
+			tuple<char,int> coords = make_tuple(i, j);
+			unique_ptr<Tile> tile = make_unique<Tile>();
+			tiles.insert(pair(coords, move(tile)));
+		}
+	}
 }
 
 bool Board::isRookMoveValid(const tuple<char, int>& position, const tuple<char, int>& nextPosition) const

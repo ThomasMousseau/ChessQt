@@ -1,11 +1,12 @@
 #pragma once
 #pragma warning(push, 0)
 #include <QMainWindow>
-#include <QPushButton>
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QPainter>
 #include <QBrush>
+#include <Tile.h>
+
 #pragma pop()
 
 class ChessWindow: public QMainWindow

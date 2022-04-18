@@ -6,6 +6,6 @@ class King : public Piece
 public:
 	King(Color);
 	//bool isMoving(const Board board, tuple<char, int>& position, tuple<char, int>& nextPosition) const override; //a revoir la fonction
-	~King() override = default;
+	//~King() override = default;
 private:
 };

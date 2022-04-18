@@ -1,5 +1,7 @@
 ﻿#pragma once
+#include <QString>
 #include <tuple>
+#include <string>
 //#include "Board.h"
 
 using namespace std;
@@ -31,11 +33,12 @@ public:
 
 	Type getType() const { return type_; }
 	Color getColor() const { return color_; }
+	QString getPieceSymbol() const { return pieceSymbol_; }
 
 protected:
 	Type type_;
 	Color color_;
 	tuple<char, int> position_;
-
+	QString pieceSymbol_;
 };
 
