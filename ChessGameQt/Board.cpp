@@ -16,12 +16,12 @@ Board::Board(QGraphicsScene* scene) : scene_(scene)
 
 vector<Tile*> Board::getTiles()
 {
-	vector<Tile*> tileOnly;
+	vector<Tile*> tileVect;
 
 	for (auto&& tile : tiles)
-		tileOnly.push_back(move(tile.second.get()));
+		tileVect.push_back(move(tile.second.get()));
 
-	return tileOnly;
+	return tileVect;
 }
 
 void Board::createBishops()
@@ -46,7 +46,7 @@ void Board::createKings()
 {
 	setPiece(make_tuple('e', 8), make_unique<King>(BLACK));
 	setPiece(make_tuple('e', 1), make_unique<King>(WHITE));
-	setPiece(make_tuple('g', 5), make_unique<King>(WHITE));
+	//setPiece(make_tuple('g', 5), make_unique<King>(WHITE));
 }
 
 void Board::createPawns()

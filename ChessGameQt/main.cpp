@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
 	initialiserBibliothequeCours(argc, argv);
 
 	
-	QGraphicsScene* scene = new QGraphicsScene();
+	QGraphicsScene* scene =  new QGraphicsScene();
 	QGraphicsView* view = new QGraphicsView(scene);
 	QBrush* brush = new QBrush(Qt::lightGray, Qt::SolidPattern);
 	view->setBackgroundBrush(*brush);
