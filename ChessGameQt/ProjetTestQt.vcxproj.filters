@@ -67,6 +67,15 @@
     <ClCompile Include="ChessWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Pawn.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Knight.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Queen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Calc.hpp">
@@ -86,10 +95,19 @@
     <ClInclude Include="King.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Board.h">
+    <ClInclude Include="Bishop.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Bishop.h">
+    <ClInclude Include="Pawn.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Knight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Queen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Board.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Tile.h">

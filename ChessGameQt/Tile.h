@@ -9,12 +9,13 @@
 class Tile
 {
 public:
-	Tile() {};
+	//Tile() {};
 	Tile(int posI, int posJ);
-	QPushButton* getButton() { return button_; }
-	unique_ptr<Piece> setPiece(unique_ptr<Piece> piece);
-	void modifyTextButton(QString icon);
+	QPushButton* getButton() const { return button_; }
+	std::unique_ptr<Piece> setPiece(std::unique_ptr<Piece> piece);
+	void modifyTextButton(QString icon) const;
+	void buttonSelected();
 private:
-	unique_ptr<Piece> pieceOnTile_ = nullptr;
+	std::unique_ptr<Piece> pieceOnTile_ = nullptr;
 	QPushButton* button_;
 };

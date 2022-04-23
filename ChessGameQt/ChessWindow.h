@@ -5,7 +5,11 @@
 #include <QGraphicsView>
 #include <QPainter>
 #include <QBrush>
-#include <Tile.h>
+#include <QAction>
+#include <QMenuBar>
+
+#include "Tile.h"
+#include "Board.h"
 
 #pragma pop()
 
@@ -14,9 +18,16 @@ class ChessWindow: public QMainWindow
 	Q_OBJECT
 public:
     ChessWindow(QWidget* parent = nullptr);
-    void CreateBoard(QGraphicsScene* scene);
-    //~ChessWindow();
+    ChessWindow(QGraphicsScene* scene, QWidget* parent = 0);
+    
+    //~ChessWindow() = default;
+public slots:
+    void buttonClicked();
 
 private:
+    //void setup();
+    QGraphicsScene* scene_;
+    Board* board_;
+    Tile* tile_;
     //Ui::ChessWindow* ui;
 };

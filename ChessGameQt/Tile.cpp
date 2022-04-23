@@ -7,7 +7,7 @@
 //}
 //
 
-
+using namespace std;
 
 Tile::Tile(int posI, int posJ)
 {
@@ -29,13 +29,23 @@ Tile::Tile(int posI, int posJ)
 
 unique_ptr<Piece> Tile::setPiece(unique_ptr<Piece> piece)
 {
-	unique_ptr<Piece> movingTile = move(this->pieceOnTile_);
+	unique_ptr<Piece> movingTile = std::move(pieceOnTile_);
 	modifyTextButton(piece.get()->getPieceSymbol());
-	this->pieceOnTile_ = move(piece);
+	this->pieceOnTile_ = std::move(piece);
 	return movingTile;
 }
 
-void Tile::modifyTextButton(QString icon)
+void Tile::modifyTextButton(QString icon) const
 {
 	button_->setText(icon);
+}
+
+void Tile::buttonSelected()
+{
+	QPalette pal = button_->palette();
+	pal.setColor(QPalette::Button, Qt::green);
+	button_->setPalette(pal);
+	//button_->setFlat(true);
+	button_->setAutoFillBackground(true);
+	button_->update();
 }

@@ -1,12 +1,11 @@
-﻿#pragma once
+#pragma once
 #include "Piece.h"
-
-class King : public Piece
+class Queen :public Piece
 {
 public:
-	King(Color);
+	Queen(Color);
 	//bool isMoving(const Board board, tuple<char, int>& position, tuple<char, int>& nextPosition) const override; //a revoir la fonction
-	~King() override = default;
+	~Queen() override = default;
 private:
-	static int nInstances_;
 };
+

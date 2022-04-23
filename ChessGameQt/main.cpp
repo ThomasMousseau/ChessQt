@@ -37,15 +37,14 @@ int main(int argc, char *argv[])
 	QApplication app(argc, argv);
 	initialiserBibliothequeCours(argc, argv);
 
-	ChessWindow chessWindow;
+	
 	QGraphicsScene* scene = new QGraphicsScene();
 	QGraphicsView* view = new QGraphicsView(scene);
-	chessWindow.setCentralWidget(view);
 	QBrush* brush = new QBrush(Qt::lightGray, Qt::SolidPattern);
-	view->setBackgroundBrush(*brush);
 
-	chessWindow.CreateBoard(scene);
-	Board();
+	view->setBackgroundBrush(*brush);
+	ChessWindow chessWindow(scene);
+	chessWindow.setCentralWidget(view);
 	chessWindow.show();
 	//CalcWindow calcWindow;
 	//calcWindow.show();

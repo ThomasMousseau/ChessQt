@@ -1,8 +1,11 @@
 ﻿#include "King.h"
 
+int King::nInstances_ = 0;
+
 King::King(Color color) : Piece(KING, color)
 {
-	if(color = WHITE)
+	nInstances_++;
+	if(color == WHITE)
 		pieceSymbol_ = "♔";
 	else
 		pieceSymbol_ = "♚";

@@ -4,8 +4,6 @@
 #include <string>
 //#include "Board.h"
 
-using namespace std;
-
 enum Type
 {
 	KING,
@@ -27,6 +25,7 @@ enum Color
 class Piece {
 
 public:
+	//Piece(){}
 	Piece(Type, Color);
 	virtual ~Piece() = default;
 	//virtual bool isMoving(const Board board, tuple<char, int>& position, tuple<char, int>& nextPosition) const;
@@ -38,7 +37,7 @@ public:
 protected:
 	Type type_;
 	Color color_;
-	tuple<char, int> position_;
+	std::tuple<char, int> position_;
 	QString pieceSymbol_;
 };
 
