@@ -124,6 +124,7 @@
     <ClCompile Include="Pawn.cpp" />
     <ClCompile Include="Piece.cpp" />
     <ClCompile Include="Queen.cpp" />
+    <ClCompile Include="Raii.cpp" />
     <ClCompile Include="Rook.cpp" />
     <ClCompile Include="Rook.h" />
     <ClCompile Include="Tile.cpp" />
@@ -140,6 +141,7 @@
     <ClInclude Include="Knight.h" />
     <ClInclude Include="Pawn.h" />
     <ClInclude Include="Queen.h" />
+    <ClInclude Include="Raii.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="TooManyKingsException.h" />
     <QtMoc Include="ChessWindow.h" />
