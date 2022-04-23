@@ -44,16 +44,16 @@ public:
 	bool isRookMoveValid(const tuple<char, int>& position, const tuple<char, int>& nextPosition) const;
 	bool isBishopMoveValid(const tuple<char, int>& position, const tuple<char, int>& nextPosition) const;
 
-	void populateTiles();
-	void createBishops();
-	void createRooks();
 	void createKings();
-	void createQueens();
-	void createPawns();
-	void createKnights();
+	
 private:
 	map<tuple<char, int>, unique_ptr<Tile>> tiles;
 	QGraphicsScene* scene_{};
-
+	void populateTiles();
+	void createBishops();
+	void createRooks();
+	void createQueens();
+	void createPawns();
+	void createKnights();
 	
 };

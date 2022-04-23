@@ -11,12 +11,11 @@
 Board::Board(QGraphicsScene* scene) : scene_(scene)
 {
 	populateTiles();
-	/*createBishops();
+	createBishops();
 	createRooks();
-	createKings();
 	createPawns();
-	createKnights();
-	createQueens();*/
+	createKnights(); 
+	createQueens();
 }
 
 vector<Tile*> Board::getTiles()

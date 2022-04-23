@@ -11,11 +11,6 @@ ChessWindow::ChessWindow(QGraphicsScene* scene, QWidget* parent) : QMainWindow(p
 	try
 	{
 		board_ = new Board(scene);
-		board_->createBishops();
-		board_->createRooks();
-		board_->createQueens();
-		board_->createPawns();
-		board_->createKnights();
 		board_->createKings();
 	}
 	catch (TooManyKingsException& e)
