@@ -11,12 +11,12 @@
 Board::Board(QGraphicsScene* scene) : scene_(scene)
 {
 	populateTiles();
-	createBishops();
+	/*createBishops();
 	createRooks();
 	createKings();
 	createPawns();
 	createKnights();
-	createQueens();
+	createQueens();*/
 }
 
 vector<Tile*> Board::getTiles()
@@ -51,6 +51,7 @@ void Board::createKings()
 {
 	setPiece(make_tuple('e', 8), make_unique<King>(BLACK));
 	setPiece(make_tuple('e', 1), make_unique<King>(WHITE));
+	setPiece(make_tuple('g', 5), make_unique<King>(WHITE));
 }
 
 void Board::createPawns()

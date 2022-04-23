@@ -76,6 +76,9 @@
     <ClCompile Include="Queen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TooManyKingsException.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Calc.hpp">
@@ -111,6 +114,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Tile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TooManyKingsException.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

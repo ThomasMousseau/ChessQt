@@ -41,11 +41,12 @@ int main(int argc, char *argv[])
 	QGraphicsScene* scene = new QGraphicsScene();
 	QGraphicsView* view = new QGraphicsView(scene);
 	QBrush* brush = new QBrush(Qt::lightGray, Qt::SolidPattern);
-
 	view->setBackgroundBrush(*brush);
+
 	ChessWindow chessWindow(scene);
 	chessWindow.setCentralWidget(view);
 	chessWindow.show();
+
 	//CalcWindow calcWindow;
 	//calcWindow.show();
 	return app.exec();
