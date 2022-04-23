@@ -1,12 +1,8 @@
 ﻿#include "Board.h"
 
-//Board::Board()
-//{
-//	populateTiles();
-//	//createBishops();
-//	//createRooks();
-//	createKings();
-//}
+
+using namespace GameLogic;
+using namespace std;
 
 Board::Board(QGraphicsScene* scene) : scene_(scene)
 {
@@ -81,6 +77,7 @@ void Board::createQueens()
 unique_ptr<Piece> Board::setPiece(const tuple<char, int>& position, unique_ptr<Piece> piece)
 {
 	return tiles[position]->setPiece(move(piece));
+	piece->setLifeState(true);
 }
 
 bool Board::isOnBoard(const tuple<char, int>& coords) const

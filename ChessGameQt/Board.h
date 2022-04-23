@@ -14,46 +14,45 @@
 
 #include "Tile.h"
 
-using namespace std;
-
-//class Piece;
-//class Tile;
 
 
-class Board {
-
-public:
-	//Board(){};
-	Board(QGraphicsScene* scene);
-
-	vector<Tile*> getTiles();
-
-	//unique_ptr<Tile> getPiece(const tuple<char, int>& position) const;
-
-	bool isOnBoard(const tuple<char, int>& position) const;
-	bool isOccupied(const tuple<char, int>& position) const;
-	bool isKnightMove(const tuple<char, int>& position, const tuple<char, int>& nextPosition) const;
-	bool isVerticalMove(const tuple<char, int>& position, const tuple<char, int>& nextPosition) const;
-	bool isHorizontalMove(const tuple<char, int>& position, const tuple<char, int>& nextPosition) const;
-	bool isDiagonalMove(const tuple<char, int>& position, const tuple<char, int>& nextPosition) const;
-	int getMoveLength(const tuple<char, int>& position, const tuple<char, int>& nextPosition) const;
-	unique_ptr<Piece> setPiece(const tuple<char, int>& position, unique_ptr<Piece> piece);
-
-	//set of moves for all pieces
-	bool isKingMoveValid(const tuple<char, int>& position, const tuple<char, int>& nextPosition) const;
-	bool isRookMoveValid(const tuple<char, int>& position, const tuple<char, int>& nextPosition) const;
-	bool isBishopMoveValid(const tuple<char, int>& position, const tuple<char, int>& nextPosition) const;
-
-	void createKings();
+namespace GameLogic
+{
 	
-private:
-	map<tuple<char, int>, unique_ptr<Tile>> tiles;
-	QGraphicsScene* scene_{};
-	void populateTiles();
-	void createBishops();
-	void createRooks();
-	void createQueens();
-	void createPawns();
-	void createKnights();
-	
-};
+	class Board {
+
+	public:
+		Board(QGraphicsScene* scene);
+
+		std::vector<Tile*> getTiles();
+
+		//unique_ptr<Tile> getPiece(const std::tuple<char, int>& position) const;
+
+		bool isOnBoard(const std::tuple<char, int>& position) const;
+		bool isOccupied(const std::tuple<char, int>& position) const;
+		bool isKnightMove(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition) const;
+		bool isVerticalMove(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition) const;
+		bool isHorizontalMove(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition) const;
+		bool isDiagonalMove(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition) const;
+		int getMoveLength(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition) const;
+		std::unique_ptr<Piece> setPiece(const std::tuple<char, int>& position, std::unique_ptr<Piece> piece);
+
+		//set of moves for all pieces
+		bool isKingMoveValid(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition) const;
+		bool isRookMoveValid(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition) const;
+		bool isBishopMoveValid(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition) const;
+
+		void createKings();
+		
+	private:
+		std::map<std::tuple<char, int>, std::unique_ptr<Tile>> tiles;
+		QGraphicsScene* scene_{};
+		void populateTiles();
+		void createBishops();
+		void createRooks();
+		void createQueens();
+		void createPawns();
+		void createKnights();
+		
+	};
+}

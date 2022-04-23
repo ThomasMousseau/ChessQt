@@ -15,21 +15,25 @@
 
 #pragma pop()
 
-class ChessWindow: public QMainWindow
+namespace GraphicInterface
 {
-	Q_OBJECT
-public:
-    ChessWindow(QWidget* parent = nullptr);
-    ChessWindow(QGraphicsScene* scene, QWidget* parent = 0);
-    
-    //~ChessWindow() = default;
-public slots:
-    void buttonClicked();
+    class ChessWindow : public QMainWindow
+    {
+        Q_OBJECT
+    public:
+        ChessWindow(QWidget* parent = nullptr);
+        ChessWindow(QGraphicsScene* scene, QWidget* parent = 0);
 
-private:
-    //void setup();
-    QGraphicsScene* scene_;
-    Board* board_;
-    Tile* tile_{};
-    //Ui::ChessWindow* ui;
-};
+        //~ChessWindow() = default;
+    public slots:
+        void buttonClicked();
+
+    private:
+        //void setup();
+        QGraphicsScene* scene_;
+    	GameLogic::Board* board_;
+        Tile* tile_{};
+        //Ui::ChessWindow* ui;
+    };
+}
+

@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
 	QBrush* brush = new QBrush(Qt::lightGray, Qt::SolidPattern);
 	view->setBackgroundBrush(*brush);
 
-	ChessWindow chessWindow(scene);
+	GraphicInterface::ChessWindow chessWindow(scene);
 	chessWindow.setCentralWidget(view);
 	chessWindow.show();
 

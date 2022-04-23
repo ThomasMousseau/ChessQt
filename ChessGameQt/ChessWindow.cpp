@@ -1,5 +1,7 @@
 ﻿#include "ChessWindow.h"
 
+using namespace GraphicInterface;
+
 ChessWindow::ChessWindow(QWidget* parent) :
 	QMainWindow(parent)
 {
@@ -10,7 +12,7 @@ ChessWindow::ChessWindow(QGraphicsScene* scene, QWidget* parent) : QMainWindow(p
 {
 	try
 	{
-		board_ = new Board(scene);
+		board_ = new GameLogic::Board(scene);
 		board_->createKings();
 	}
 	catch (TooManyKingsException& e)
@@ -20,7 +22,7 @@ ChessWindow::ChessWindow(QGraphicsScene* scene, QWidget* parent) : QMainWindow(p
 	}
 	
 	scene_ = scene;
-	vector<Tile*> tiles = board_->getTiles();
+	std::vector<Tile*> tiles = board_->getTiles();
 
 	for (auto&& tile : tiles)
 	{
