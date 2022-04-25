@@ -1,11 +1,10 @@
-﻿#include "Tile.h"
-
-
-//Piece* Tile::getPiece() const
-//{
-//	return pieceOnTile_.get();
-//}
-//
+﻿/*
+* \file   Tile.cpp
+* \author Matteo Colavita et Thomas Mousseau
+* \date   25 avril 2022
+* Créé le 20 avril 2022
+*/
+#include "Tile.h"
 
 using namespace std;
 
@@ -45,7 +44,6 @@ void Tile::buttonSelected()
 	QPalette pal = button_->palette();
 	pal.setColor(QPalette::Button, Qt::green);
 	button_->setPalette(pal);
-	//button_->setFlat(true);
 	button_->setAutoFillBackground(true);
 	button_->update();
 }

@@ -1,8 +1,14 @@
-﻿#include "Rook.h"
+﻿/*
+* \file   Rook.cpp
+* \author Matteo Colavita et Thomas Mousseau
+* \date   25 avril 2022
+* Créé le 20 avril 2022
+*/
+#include "Rook.h"
 
-Rook::Rook(Color color) : Piece(ROOK, color)
+Rook::Rook(Color color) : Piece(Type::ROOK, color)
 {
-	if (color == WHITE)
+	if (color == Color::WHITE)
 		pieceSymbol_ = "♖";
 	else
 		pieceSymbol_ = "♜";

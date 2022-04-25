@@ -114,8 +114,6 @@
     <ClCompile Include="bibliotheque_cours\verification_allocation.cpp" />
     <ClCompile Include="Bishop.cpp" />
     <ClCompile Include="Board.cpp" />
-    <ClCompile Include="Calc.cpp" />
-    <ClCompile Include="CalcWindow.cpp" />
     <ClCompile Include="ChessWindow.cpp" />
     <ClCompile Include="googletest\src\gtest-all.cc" />
     <ClCompile Include="King.cpp" />
@@ -124,16 +122,9 @@
     <ClCompile Include="Pawn.cpp" />
     <ClCompile Include="Piece.cpp" />
     <ClCompile Include="Queen.cpp" />
-    <ClCompile Include="Raii.cpp" />
     <ClCompile Include="Rook.cpp" />
     <ClCompile Include="Rook.h" />
     <ClCompile Include="Tile.cpp" />
-    <ClCompile Include="TestCalc.cpp" />
-    <ClCompile Include="TooManyKingsException.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <QtMoc Include="Calc.hpp" />
-    <QtMoc Include="CalcWindow.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bishop.h" />

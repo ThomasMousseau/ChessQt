@@ -1,7 +1,15 @@
-﻿#include "Board.h"
+﻿/**
+* \file   Board.cpp
+* \author Matteo Colavita et Thomas Mousseau
+* \date   25 avril 2022
+* Créé le 20 avril 2022
+*/
 
 
-using namespace GameLogic;
+#include "Board.h"
+
+
+using namespace gamelogic;
 using namespace std;
 
 Board::Board(QGraphicsScene* scene) : scene_(scene)
@@ -26,58 +34,57 @@ vector<Tile*> Board::getTiles()
 
 void Board::createBishops()
 {
-	setPiece(make_tuple('c', 1), make_unique<Bishop>(WHITE));
-	setPiece(make_tuple('f', 1), make_unique<Bishop>(WHITE));
+	setPiece(make_tuple('c', 1), make_unique<Bishop>(Color::WHITE));
+	setPiece(make_tuple('f', 1), make_unique<Bishop>(Color::WHITE));
 
-	setPiece(make_tuple('c', 8), make_unique<Bishop>(BLACK));
-	setPiece(make_tuple('f', 8), make_unique<Bishop>(BLACK));
+	setPiece(make_tuple('c', 8), make_unique<Bishop>(Color::BLACK));
+	setPiece(make_tuple('f', 8), make_unique<Bishop>(Color::BLACK));
 
 }
 void Board::createRooks()
 {
-	setPiece(make_tuple('h', 1), make_unique<Rook>(WHITE));
-	setPiece(make_tuple('a', 1), make_unique<Rook>(WHITE));
+	setPiece(make_tuple('h', 1), make_unique<Rook>(Color::WHITE));
+	setPiece(make_tuple('a', 1), make_unique<Rook>(Color::WHITE));
 
-	setPiece(make_tuple('h', 8), make_unique<Rook>(BLACK));
-	setPiece(make_tuple('a', 8), make_unique<Rook>(BLACK));
+	setPiece(make_tuple('h', 8), make_unique<Rook>(Color::BLACK));
+	setPiece(make_tuple('a', 8), make_unique<Rook>(Color::BLACK));
 
 }
 void Board::createKings()
 {
-	setPiece(make_tuple('e', 8), make_unique<King>(BLACK));
-	setPiece(make_tuple('e', 1), make_unique<King>(WHITE));
-	//setPiece(make_tuple('g', 5), make_unique<King>(WHITE));
+	setPiece(make_tuple('e', 8), make_unique<King>(Color::BLACK));
+	setPiece(make_tuple('e', 1), make_unique<King>(Color::WHITE));
+	setPiece(make_tuple('g', 5), make_unique<King>(Color::WHITE)); //Exemple Exception trigger
 }
 
 void Board::createPawns()
 {
 	for (char i = 'a'; i <= 'h'; i++)
 	{
-		setPiece(make_tuple(i, 2), make_unique<Pawn>(WHITE));
-		setPiece(make_tuple(i, 7), make_unique<Pawn>(BLACK));
+		setPiece(make_tuple(i, 2), make_unique<Pawn>(Color::WHITE));
+		setPiece(make_tuple(i, 7), make_unique<Pawn>(Color::BLACK));
 	}
 }
 
 void Board::createKnights()
 {
-	setPiece(make_tuple('b', 1), make_unique<Knight>(WHITE));
-	setPiece(make_tuple('g', 1), make_unique<Knight>(WHITE));
+	setPiece(make_tuple('b', 1), make_unique<Knight>(Color::WHITE));
+	setPiece(make_tuple('g', 1), make_unique<Knight>(Color::WHITE));
 
-	setPiece(make_tuple('b', 8), make_unique<Knight>(BLACK));
-	setPiece(make_tuple('g', 8), make_unique<Knight>(BLACK));
+	setPiece(make_tuple('b', 8), make_unique<Knight>(Color::BLACK));
+	setPiece(make_tuple('g', 8), make_unique<Knight>(Color::BLACK));
 }
 
 void Board::createQueens()
 {
-	setPiece(make_tuple('d', 8), make_unique<Queen>(BLACK));
-	setPiece(make_tuple('d', 1), make_unique<Queen>(WHITE));
+	setPiece(make_tuple('d', 8), make_unique<Queen>(Color::BLACK));
+	setPiece(make_tuple('d', 1), make_unique<Queen>(Color::WHITE));
 }
 
 
 unique_ptr<Piece> Board::setPiece(const tuple<char, int>& position, unique_ptr<Piece> piece)
 {
 	return tiles[position]->setPiece(move(piece));
-	piece->setLifeState(true);
 }
 
 bool Board::isOnBoard(const tuple<char, int>& coords) const
@@ -91,11 +98,13 @@ bool Board::isOnBoard(const tuple<char, int>& coords) const
 		return true;
 	}
 }
+
 //bool Board::isOccupied(const tuple<char, int>& coords) const
 //{
 //	return getPiece(coords) != nullptr;
 //
 //}
+
 bool Board::isVerticalMove(const tuple<char, int>& position, const tuple<char, int>& nextPosition) const
 {
 	return get<1>(position) == get<1>(nextPosition);
@@ -128,7 +137,7 @@ int Board::getMoveLength(const tuple<char, int>& position, const tuple<char, int
 	}
 	else
 	{
-		return -10; //erreur s<il rentre dans le else
+		return -10;
 	}
 }
 
@@ -159,7 +168,6 @@ void Board::populateTiles()
 		{
 			tuple<char,int> coords = make_tuple(i, j);
 			unique_ptr<Tile> tile = make_unique<Tile>(i, j);
-			//scene_->addWidget(tile->getButton());
 			tiles.insert(pair(coords, move(tile)));
 		}
 	}

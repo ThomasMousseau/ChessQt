@@ -1,39 +1,33 @@
-﻿#include "King.h"
+﻿/*
+* \file   King.cpp
+* \author Matteo Colavita et Thomas Mousseau
+* \date   25 avril 2022
+* Créé le 20 avril 2022
+*/
+#include "King.h"
 
 int King::nInstancesWhite_ = 0;
 int King::nInstancesBlack_ = 0;
 
 
-King::King(Color color) : Piece(KING, color)
+King::King(Color color) : Piece(Type::KING, color)
 {
-	const bool condition = (nInstancesBlack_ == 1 && color == BLACK) || (nInstancesWhite_ == 1 && color == WHITE);
+	const bool condition = (nInstancesBlack_ == 1 && color == Color::BLACK) || (nInstancesWhite_ == 1 && color == Color::WHITE);
 
 	if (condition)
 	{
 		throw TooManyKingsException("Too Many Kings on Board");
 	}
-	else if (color == WHITE)
+	else if (color == Color::WHITE)
 	{
 		nInstancesWhite_++;
 		pieceSymbol_ = "♔";
 	}
-	else if (color == BLACK)
+	else if (color == Color::BLACK)
 	{
 		nInstancesBlack_++;
 		pieceSymbol_ = "♚";
 	}
 }
-
-//bool King::isMoving(const Board board, tuple<char, int>& position, tuple<char, int>& nextPosition) const
-//{
-//	if (board.getMoveLength(position, nextPosition) == 1)
-//	{
-//		return true;
-//	}
-//	else
-//	{
-//		return false;
-//	}
-//}
 
 

@@ -1,9 +1,12 @@
-#include "Calc.hpp"
-#include "CalcWindow.hpp"
+/*
+* \file   main.cpp
+* \author Matteo Colavita et Thomas Mousseau
+* \date   25 avril 2022
+* Créé le 20 avril 2022
+*/
 
 #include <QApplication>
-
-#include "Board.h"
+#include "Raii.h"
 #include "ChessWindow.h"
 
 #if __has_include("bibliotheque_cours.hpp")
@@ -37,17 +40,18 @@ int main(int argc, char *argv[])
 	QApplication app(argc, argv);
 	initialiserBibliothequeCours(argc, argv);
 
-	
-	QGraphicsScene* scene =  new QGraphicsScene();
+	QGraphicsScene* scene = new QGraphicsScene();
 	QGraphicsView* view = new QGraphicsView(scene);
 	QBrush* brush = new QBrush(Qt::lightGray, Qt::SolidPattern);
+	
 	view->setBackgroundBrush(*brush);
 
-	GraphicInterface::ChessWindow chessWindow(scene);
+	graphicinterface::ChessWindow chessWindow(scene);
 	chessWindow.setCentralWidget(view);
 	chessWindow.show();
-
-	//CalcWindow calcWindow;
-	//calcWindow.show();
+	
+	Raii aquisitionScene(scene);
+	Raii aquisitionView(view);
+	Raii aquisitionBrush(brush);
 	return app.exec();
 }

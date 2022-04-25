@@ -1,6 +1,13 @@
-﻿#include "ChessWindow.h"
+﻿/*
+* \file   ChessWindow.cpp
+* \author Matteo Colavita et Thomas Mousseau
+* \date   25 avril 2022
+* Créé le 20 avril 2022
+*/
 
-using namespace GraphicInterface;
+#include "ChessWindow.h"
+
+using namespace graphicinterface;
 
 ChessWindow::ChessWindow(QWidget* parent) :
 	QMainWindow(parent)
@@ -12,7 +19,7 @@ ChessWindow::ChessWindow(QGraphicsScene* scene, QWidget* parent) : QMainWindow(p
 {
 	try
 	{
-		board_ = new GameLogic::Board(scene);
+		board_ = std::make_shared<gamelogic::Board>(scene);
 		board_->createKings();
 	}
 	catch (TooManyKingsException& e)

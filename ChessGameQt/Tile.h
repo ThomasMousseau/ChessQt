@@ -1,15 +1,17 @@
+/*
+* \file   Tile.h
+* \author Matteo Colavita et Thomas Mousseau
+* \date   25 avril 2022
+* Créé le 20 avril 2022
+*/
 #pragma once
-
 #include "Piece.h"
 #include <memory>
-#include <iostream>
 #include <QPushButton>
-#include <QString>
 
 class Tile
 {
 public:
-	//Tile() {};
 	Tile(int posI, int posJ);
 	QPushButton* getButton() const { return button_; }
 	std::unique_ptr<Piece> setPiece(std::unique_ptr<Piece> piece);

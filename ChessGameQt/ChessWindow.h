@@ -1,3 +1,10 @@
+/*
+* \file   ChessWindow.h
+* \author Matteo Colavita et Thomas Mousseau
+* \date   25 avril 2022
+* Créé le 20 avril 2022
+*/
+
 #pragma once
 #pragma warning(push, 0)
 #include <QMainWindow>
@@ -8,14 +15,13 @@
 #include <QAction>
 #include <QMenuBar>
 #include <qmessagebox.h>
-
 #include "Tile.h"
 #include "Board.h"
 #include "TooManyKingsException.h"
 
 #pragma pop()
 
-namespace GraphicInterface
+namespace graphicinterface
 {
     class ChessWindow : public QMainWindow
     {
@@ -23,17 +29,13 @@ namespace GraphicInterface
     public:
         ChessWindow(QWidget* parent = nullptr);
         ChessWindow(QGraphicsScene* scene, QWidget* parent = 0);
-
-        //~ChessWindow() = default;
     public slots:
         void buttonClicked();
 
     private:
-        //void setup();
         QGraphicsScene* scene_;
-    	GameLogic::Board* board_;
-        Tile* tile_{};
-        //Ui::ChessWindow* ui;
+    	std::shared_ptr<gamelogic::Board> board_;
+        Tile* tile_;
     };
 }
 

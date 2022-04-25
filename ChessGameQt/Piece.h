@@ -1,10 +1,15 @@
-﻿#pragma once
+﻿/*
+* \file   Piece.h
+* \author Matteo Colavita et Thomas Mousseau
+* \date   25 avril 2022
+* Créé le 20 avril 2022
+*/
+
+#pragma once
 #include <QString>
 #include <tuple>
-#include <string>
-//#include "Board.h"
 
-enum Type
+enum class Type
 {
 	KING,
 	PAWN,
@@ -15,7 +20,7 @@ enum Type
 	
 };
 
-enum Color
+enum class Color
 {
 	BLACK,
 	WHITE
@@ -25,21 +30,17 @@ enum Color
 class Piece {
 
 public:
-	//Piece(){}
 	Piece(Type, Color);
 	virtual ~Piece() = default;
-	//virtual bool isMoving(const Board board, tuple<char, int>& position, tuple<char, int>& nextPosition) const;
 
 	Type getType() const { return type_; }
 	Color getColor() const { return color_; }
 	QString getPieceSymbol() const { return pieceSymbol_; }
-	void setLifeState(bool lifeState) { isAlive_ = lifeState; }
 
 protected:
 	Type type_;
 	Color color_;
 	std::tuple<char, int> position_;
 	QString pieceSymbol_;
-	bool isAlive_ = false;
 };
 

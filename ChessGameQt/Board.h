@@ -1,22 +1,25 @@
-﻿#pragma once
+﻿/*
+* \file   Board.h
+* \author Matteo Colavita et Thomas Mousseau
+* \date   25 avril 2022
+* Créé le 20 avril 2022
+*/
+
+#pragma once
 #include <map>
 #include <memory>
 #include <vector>
 #include <tuple>
 #include <QGraphicsScene>
-
 #include "Rook.h"
 #include "Bishop.h"
 #include "King.h"
 #include "Pawn.h"
-#include <Knight.h>
+#include "Knight.h"
 #include "Queen.h"
-
 #include "Tile.h"
 
-
-
-namespace GameLogic
+namespace gamelogic
 {
 	
 	class Board {
