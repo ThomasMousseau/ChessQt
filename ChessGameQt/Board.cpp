@@ -29,7 +29,11 @@ int Board::ConvertCharToInt(char c)
 
 Board::Board()
 {
-	populateTiles();
+	//ON DOIT GARDER POPULATETILES C<EST LA DISPOSITION DES PIECES CREATE_PIECES
+	//if (false)
+	populateTiles(); //classicDisposition
+	//else
+	//	populateTilesCheckDispotion
 }
 
 vector<Tile*> Board::getTiles() const
@@ -114,13 +118,9 @@ void Board::movePiece(const std::tuple<char, int>& position, const std::tuple<ch
 bool Board::isOnBoard(const tuple<char, int>& coords) const
 {
 	if (get<0>(coords) < 'a' || get<0>(coords) > 'h' || get<1>(coords) < 1 || get<1>(coords) > 8)
-	{
 		return false;
-	}
 	else
-	{
 		return true;
-	}
 }
 
 bool Board::isOccupied(const tuple<char, int>& coords) const
@@ -231,8 +231,13 @@ bool Board::isQueenMoveValid(const tuple<char, int>& position, const tuple<char,
 
 bool Board::isForwardMove(const tuple<char, int>& position, const tuple<char, int>& nextPosition) const
 {
-	return true; //TODO A FAIRE CETTE FONCTION
+	auto color = tiles_.find(position)->second.get()->getPiece()->getColor();
 
+	if (color == Color::BLACK && get<0>(position) < get<0>(nextPosition))
+		return true;
+	else if (color == Color::WHITE && get<0>(position) > get<0>(nextPosition))
+		return true;
+	return false;
 }
 
 Piece* Board::getPiece(const std::tuple<char, int>& position) const
@@ -309,23 +314,19 @@ bool Board::isPawnMoveValid(const tuple<char, int>& position, const tuple<char, 
 	if (isVerticalMove(position, nextPosition))
 	{
 		if (isOccupied(nextPosition))
-		{
 			return false;
-		}
 
 		if (moveLength == 2)
 		{
-			//condition au debut pour un movement de 2
+			if (tiles_.find(position)->second.get()->getPiece()->getNTimesMoved() == 0)
+				return true;
 		}
 		else if (moveLength == 1)
-		{
 			return true;
-		}
 		else
-		{
 			return false;
-		}
 	}
+
 	return false;
 }
 
@@ -368,4 +369,59 @@ bool Board::isRookMoveValid(const tuple<char, int>& position, const tuple<char, 
 	if (isHorizontalMove(position, nextPosition) || isVerticalMove(position, nextPosition))
 		if (isPathValid(position, nextPosition))
 			return true;
+}
+
+bool Board::isValidMove(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition) const
+{
+	if (!isOnBoard(position) || !isOnBoard(nextPosition))
+		return false;
+
+	if (!isOccupiedDifferentColor(position, nextPosition))
+		return false;
+
+	Piece* piece = getPiece(position);
+	if (piece == nullptr)
+		return false;
+	else
+	{
+		piece->incrementNTimeMoves();
+
+		switch(piece->getType())
+		{
+			case Type::BISHOP : return isBishopMoveValid(position, nextPosition);
+			case Type::KING: return isKingMoveValid(position, nextPosition);
+			case Type::ROOK: return isRookMoveValid(position, nextPosition);
+			case Type::QUEEN: return isQueenMoveValid(position, nextPosition);
+			case Type::PAWN: return isPawnMoveValid(position, nextPosition);
+			case Type::KNIGHT: return isKnightMoveValid(position, nextPosition);
+		}
+	}
+	//il manque un return?
+}
+
+std::tuple<char, int> Board::getKingLocation(Color color) const
+{
+	for (auto const& tile : tiles_) {
+		Piece* piece = tile.second->getPiece();
+		if (piece != nullptr && piece->getColor() == color && piece->getType() == Type::KING)
+		{
+			return tile.first;
+		}
+	}
+}
+
+std::vector<std::tuple<char, int>> Board::getPieceLocations(Color color) const
+{
+	std::vector<std::tuple<char, int>> pieceLocations;
+
+	for (auto const& tile : tiles_)
+	{
+		Piece* piece = tile.second->getPiece();
+		if (piece != nullptr && piece->getColor() == color)
+		{
+			pieceLocations.push_back(tile.first);
+		}
+	}
+
+	return pieceLocations;
 }

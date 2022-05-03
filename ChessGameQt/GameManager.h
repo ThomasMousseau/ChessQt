@@ -8,8 +8,8 @@ class GameManager
 public:
 	void manage();
 	bool move(std::tuple<char, int> position, std::tuple<char, int> nextPosition);
-	bool isCheck(Color defendingColor) const;
-	bool isCheckMate(Color defendingColor);
+	bool isInCheck(Color defendingColor) const;
+	bool isCheckMate(Color defendingColor) const;
 	Color getTurn() const;
 
 	// Utilities
@@ -18,7 +18,7 @@ public:
 
 private:
 	int moveNumber = 0;
-	gamelogic::Board board;
+	gamelogic::Board board; //je dois link le board d<une certaine facon
 
 };
 

@@ -8,6 +8,8 @@ void GameManager::manage()
 		if (isCheckMate(getTurn()))
 			break;
 
+		//check Input 
+
 	}
 }
 
@@ -23,11 +25,34 @@ Color GameManager::getTurn() const
 	return Color::BLACK;
 }
 
-bool GameManager::isCheckMate(Color defendingColor)
+bool GameManager::isCheckMate(Color defendingColor) const
 {
-	return true; //idk yet
+	if (isInCheck(defendingColor))
+	{
+		return true; //je dois continuer cette fonction
+	}
 }
 
+
+bool GameManager::isInCheck(Color defendingColor) const
+{
+	Color attackingColor;
+	if (defendingColor == Color::WHITE)
+		attackingColor = Color::BLACK;
+	else
+		attackingColor = Color::WHITE;
+
+	std::tuple<char, int> kingPosition = board.getKingLocation(defendingColor);
+	std::vector<std::tuple<char, int>> piecesPosition = board.getPieceLocations(attackingColor);
+
+	for (auto attackingPiece : piecesPosition)
+	{
+		if (board.isValidMove(attackingPiece, kingPosition))
+			return true;
+	}
+
+	return false;
+}
 
 
 

@@ -25,7 +25,7 @@ namespace gamelogic
 	class Board: public QObject {
 		Q_OBJECT
 	public:
-		Board();
+		Board(); //mettre un bool dans le params du constructeurs  pour savoir si on a une disposition classique ou checkMate
 
 		std::vector<Tile*> getTiles() const;
 		void createPieces();
@@ -54,7 +54,10 @@ namespace gamelogic
 
 		void createKings();
 		void movePiece(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition);
+		bool isValidMove(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition) const;
 
+		std::tuple<char, int> getKingLocation(Color) const;
+		std::vector<std::tuple<char, int>> getPieceLocations(Color) const;
 
 	public slots:
 		void findValidMoves(std::tuple<char, int>);

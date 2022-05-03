@@ -37,11 +37,14 @@ public:
 	Type getType() const { return type_; }
 	Color getColor() const { return color_; }
 	std::string getPieceSymbol() const { return pieceSymbol_; }
+	int getNTimesMoved() const { return nTimeMoved; }
+	void incrementNTimeMoves() { nTimeMoved++; }
 
 protected:
 	Type type_;
 	Color color_;
 	std::tuple<char, int> position_;
 	std::string pieceSymbol_;
+	int nTimeMoved = 0;
 };
 
