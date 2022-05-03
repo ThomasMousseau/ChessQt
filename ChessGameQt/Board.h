@@ -13,6 +13,7 @@
 #include <QGraphicsScene>
 #include "Rook.h"
 #include "Bishop.h"
+#include "ChessWindow.h"
 #include "King.h"
 #include "Pawn.h"
 #include "Knight.h"
@@ -25,11 +26,10 @@ namespace gamelogic
 	class Board {
 
 	public:
-		Board(QGraphicsScene* scene);
+		Board();
 
-		std::vector<Tile*> getTiles();
-
-		//unique_ptr<Tile> getPiece(const std::tuple<char, int>& position) const;
+		std::vector<Tile*> getTiles() const;
+		void createPieces();
 
 		bool isOnBoard(const std::tuple<char, int>& position) const;
 		bool isOccupied(const std::tuple<char, int>& position) const;
@@ -48,8 +48,7 @@ namespace gamelogic
 		void createKings();
 		
 	private:
-		std::map<std::tuple<char, int>, std::unique_ptr<Tile>> tiles;
-		QGraphicsScene* scene_{};
+		std::map<std::tuple<char, int>, std::unique_ptr<Tile>> tiles_;
 		void populateTiles();
 		void createBishops();
 		void createRooks();

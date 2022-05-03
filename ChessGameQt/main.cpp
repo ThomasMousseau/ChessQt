@@ -47,6 +47,24 @@ int main(int argc, char *argv[])
 	view->setBackgroundBrush(*brush);
 
 	graphicinterface::ChessWindow chessWindow(scene);
+	std::shared_ptr<gamelogic::Board> board = std::make_shared<gamelogic::Board>();
+
+	for(auto&& tile: board->getTiles())
+	{
+		QObject::connect(tile, SIGNAL(tileTextModified(std::tuple<char,int>, std::string)), &chessWindow, SLOT(addPiece(std::tuple<char, int>, std::string)));
+	}
+
+	try
+	{
+		board->createPieces();
+		board->createKings();
+	}
+	catch (TooManyKingsException& e)
+	{
+		QMessageBox messageBox;
+		messageBox.critical(qobject_cast<QWidget*>(scene), "QTERROR", e.what());
+	}
+
 	chessWindow.setCentralWidget(view);
 	chessWindow.show();
 	

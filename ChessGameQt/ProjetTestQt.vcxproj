@@ -133,7 +133,7 @@
     <ClInclude Include="Pawn.h" />
     <ClInclude Include="Queen.h" />
     <ClInclude Include="Raii.h" />
-    <ClInclude Include="Tile.h" />
+    <QtMoc Include="Tile.h" />
     <ClInclude Include="TooManyKingsException.h" />
     <QtMoc Include="ChessWindow.h" />
     <ClInclude Include="King.h" />

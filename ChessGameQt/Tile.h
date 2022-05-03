@@ -9,15 +9,17 @@
 #include <memory>
 #include <QPushButton>
 
-class Tile
+class Tile: public QObject
 {
+	Q_OBJECT
 public:
-	Tile(int posI, int posJ);
-	QPushButton* getButton() const { return button_; }
+	Tile(std::tuple<char, int> coords);
 	std::unique_ptr<Piece> setPiece(std::unique_ptr<Piece> piece);
-	void modifyTextButton(QString icon) const;
-	void buttonSelected();
+
+signals:
+	void tileTextModified(std::tuple<char, int>, std::string);
+
 private:
 	std::unique_ptr<Piece> pieceOnTile_ = nullptr;
-	QPushButton* button_;
+	std::tuple<char, int> position_;
 };

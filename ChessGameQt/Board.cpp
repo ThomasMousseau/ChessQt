@@ -12,24 +12,28 @@
 using namespace gamelogic;
 using namespace std;
 
-Board::Board(QGraphicsScene* scene) : scene_(scene)
+Board::Board()
 {
 	populateTiles();
-	createBishops();
-	createRooks();
-	createPawns();
-	createKnights(); 
-	createQueens();
 }
 
-vector<Tile*> Board::getTiles()
+vector<Tile*> Board::getTiles() const
 {
 	vector<Tile*> tileVect;
 
-	for (auto&& tile : tiles)
+	for (auto&& tile : tiles_)
 		tileVect.push_back(move(tile.second.get()));
 
 	return tileVect;
+}
+
+void gamelogic::Board::createPieces()
+{
+	createBishops();
+	createRooks();
+	createPawns();
+	createKnights();
+	createQueens();
 }
 
 void Board::createBishops()
@@ -54,7 +58,7 @@ void Board::createKings()
 {
 	setPiece(make_tuple('e', 8), make_unique<King>(Color::BLACK));
 	setPiece(make_tuple('e', 1), make_unique<King>(Color::WHITE));
-	setPiece(make_tuple('g', 5), make_unique<King>(Color::WHITE)); //Exemple Exception trigger
+	//setPiece(make_tuple('g', 5), make_unique<King>(Color::WHITE)); //Exemple Exception trigger
 }
 
 void Board::createPawns()
@@ -84,7 +88,7 @@ void Board::createQueens()
 
 unique_ptr<Piece> Board::setPiece(const tuple<char, int>& position, unique_ptr<Piece> piece)
 {
-	return tiles[position]->setPiece(move(piece));
+	return tiles_[position]->setPiece(move(piece));
 }
 
 bool Board::isOnBoard(const tuple<char, int>& coords) const
@@ -167,8 +171,8 @@ void Board::populateTiles()
 		for( int j = 1; j <= 8; j++)
 		{
 			tuple<char,int> coords = make_tuple(i, j);
-			unique_ptr<Tile> tile = make_unique<Tile>(i, j);
-			tiles.insert(pair(coords, move(tile)));
+			unique_ptr<Tile> tile = make_unique<Tile>(coords);
+			tiles_.insert(pair(coords, move(tile)));
 		}
 	}
 }

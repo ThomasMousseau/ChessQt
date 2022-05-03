@@ -35,12 +35,12 @@ public:
 
 	Type getType() const { return type_; }
 	Color getColor() const { return color_; }
-	QString getPieceSymbol() const { return pieceSymbol_; }
+	std::string getPieceSymbol() const { return pieceSymbol_; }
 
 protected:
 	Type type_;
 	Color color_;
 	std::tuple<char, int> position_;
-	QString pieceSymbol_;
+	std::string pieceSymbol_;
 };
 
