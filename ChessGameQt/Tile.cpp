@@ -33,6 +33,11 @@ unique_ptr<Piece> Tile::setPiece(unique_ptr<Piece> piece)
 	this->pieceOnTile_ = std::move(piece);
 	return movingTile;
 }
+Piece* Tile::getPiece()
+{
+	unique_ptr<Piece> movingTile = std::move(pieceOnTile_);
+	return movingTile.get();
+}
 
 void Tile::modifyTextButton(QString icon) const
 {
@@ -46,4 +51,11 @@ void Tile::buttonSelected()
 	button_->setPalette(pal);
 	button_->setAutoFillBackground(true);
 	button_->update();
+}
+
+void Tile::movePiece(Tile& prochaineTile)
+{
+	this->pieceOnTile_ = move(prochaineTile.pieceOnTile_);
+	prochaineTile.pieceOnTile_ = nullptr;
+
 }

@@ -30,6 +30,7 @@ enum class Color
 class Piece {
 
 public:
+	Piece() {};
 	Piece(Type, Color);
 	virtual ~Piece() = default;
 

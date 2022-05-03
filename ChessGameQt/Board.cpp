@@ -12,6 +12,21 @@
 using namespace gamelogic;
 using namespace std;
 
+int Board::ConvertCharToInt(char c)
+{
+	switch (c)
+	{
+		case 'a' : return 1;
+		case 'b': return 2;
+		case 'c': return 3;
+		case 'd': return 4;
+		case 'e': return 5;
+		case 'f': return 6;
+		case 'g': return 7;
+		case 'h': return 8;
+	}
+}
+
 Board::Board(QGraphicsScene* scene) : scene_(scene)
 {
 	populateTiles();
@@ -86,6 +101,11 @@ unique_ptr<Piece> Board::setPiece(const tuple<char, int>& position, unique_ptr<P
 {
 	return tiles[position]->setPiece(move(piece));
 }
+void Board::movePiece(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition)
+{
+	tiles[nextPosition]->movePiece(*tiles[nextPosition].get()); //JSP si cette ligne va fonctionner
+
+}
 
 bool Board::isOnBoard(const tuple<char, int>& coords) const
 {
@@ -99,11 +119,11 @@ bool Board::isOnBoard(const tuple<char, int>& coords) const
 	}
 }
 
-//bool Board::isOccupied(const tuple<char, int>& coords) const
-//{
-//	return getPiece(coords) != nullptr;
-//
-//}
+bool Board::isOccupied(const tuple<char, int>& coords) const
+{
+	return getPiece(coords) != nullptr;
+
+}
 
 bool Board::isVerticalMove(const tuple<char, int>& position, const tuple<char, int>& nextPosition) const
 {
@@ -129,36 +149,197 @@ int Board::getMoveLength(const tuple<char, int>& position, const tuple<char, int
 	}
 	else if (isHorizontalMove(position, nextPosition))
 	{
-		return abs(get<1>(nextPosition) - get<0>(position));
+		return abs(get<1>(nextPosition) - get<1>(position));
 	}
 	else if (isDiagonalMove(position, nextPosition))
 	{
-		return abs(get<0>(nextPosition) - get<0>(position));
+		return abs(get<0>(nextPosition) - get<0>(position)); 
 	}
 	else
 	{
-		return -10;
+		return -1;
 	}
 }
 
 bool Board::isKingMoveValid(const tuple<char, int>& position, const tuple<char, int>& nextPosition) const
 {
 	if (getMoveLength(position, nextPosition) == 1)
-	{
 		return true;
-	}
 	else
-	{
 		return false;
-	}
 }
 
 bool Board::isBishopMoveValid(const tuple<char, int>& position, const tuple<char, int>& nextPosition) const
 {
 	if (isDiagonalMove(position, nextPosition))
-		return true;
+		if (isPathValid(position, nextPosition))
+			return true;
+}
+
+bool Board::isPathValid(const tuple<char, int>& position, const tuple<char, int>& nextPosition) const
+{
+
+	int composantVecteurVer = (get<0>(nextPosition) - get<0>(position));
+	int composantVecteurHor = (get<1>(nextPosition) - get<1>(position));
+
+	if (composantVecteurVer != 0)
+		composantVecteurVer /= abs(composantVecteurVer);
+	if (composantVecteurHor != 0)
+		composantVecteurHor /= abs(composantVecteurHor);
+
+	auto posActuel = position;
+	bool isAtFinalTile;
+	do
+	{
+		get<0>(posActuel) =+ composantVecteurVer; 
+		get<1>(posActuel) =+ composantVecteurHor;
+
+		isAtFinalTile = get<0>(posActuel) != get<0>(nextPosition) && get<1>(posActuel) != get<1>(nextPosition);
+
+		if(isAtFinalTile)
+		{
+			if (!isOccupiedDifferentColor(position,posActuel))
+				return false;
+		}
+		else
+		{
+			if (isOccupied(posActuel))
+				return false;
+		}
+
+	} while (!isAtFinalTile);
+
+	return true;
+}
+
+bool Board::isQueenMoveValid(const tuple<char, int>& position, const tuple<char, int>& nextPosition) const
+{
+	if (isVerticalMove(position, nextPosition) || isHorizontalMove(position, nextPosition))
+		if (isPathValid(position, nextPosition))
+			return true;
+
+	 if (isDiagonalMove(position, nextPosition))
+		if (isPathValid(position, nextPosition))
+			return true;
+
 	return false;
 }
+
+bool Board::isForwardMove(const tuple<char, int>& position, const tuple<char, int>& nextPosition) const
+{
+	return true; //TODO A FAIRE CETTE FONCTION
+
+}
+
+Piece* Board::getPiece(const std::tuple<char, int>& position) const
+{
+	return tiles.find(position)->second->getPiece();
+}
+
+bool Board::isOccupiedDifferentColor(const tuple<char, int>& position, const tuple<char, int>& nextPosition) const
+{
+	const Piece* fromPiece = getPiece(position);
+	Color fromColor;
+	if (fromPiece != nullptr)
+	{
+		fromColor = fromPiece->getColor();
+	}
+	else
+	{
+		return false;
+	}
+
+	const Piece* toPiece = getPiece(nextPosition);
+	Color toColor;
+	if (toPiece != nullptr)
+	{
+		toColor = toPiece->getColor();
+	}
+	else
+	{
+		return false;
+	}
+
+	return fromColor != toColor;
+
+}
+
+bool Board::isPawnMoveValid(const tuple<char, int>& position, const tuple<char, int>& nextPosition) const
+{
+	int moveLength = getMoveLength(position, nextPosition);
+
+	if (isForwardMove(position, nextPosition))
+	{
+		return false;
+	}
+
+	if (isHorizontalMove(position, nextPosition))
+	{
+		return false;
+	}
+
+	if (isDiagonalMove(position, nextPosition)) //pour manger
+	{
+		if (moveLength == 1)
+		{
+			if (isOccupiedDifferentColor(position, nextPosition))
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	if (isVerticalMove(position, nextPosition))
+	{
+		if (isOccupied(nextPosition))
+		{
+			return false;
+		}
+
+		if (moveLength == 2)
+		{
+			//condition au debut pour un movement de 2
+		}
+		else if (moveLength == 1)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	return false;
+}
+
+bool Board::isKnightMove(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition) const
+{
+
+	int verticalDifference = abs(get<0>(position) - get<0>(nextPosition));
+	int horizontalDifference = abs(get<1>(position) - get<1>(nextPosition));
+
+	if ((verticalDifference == 2 && horizontalDifference == 1) || (verticalDifference == 1 && horizontalDifference == 2))
+		return true;
+	else
+		return false;
+}
+
+bool Board::isKnightMoveValid(const tuple<char, int>& position, const tuple<char, int>& nextPosition) const
+{
+	if (isKnightMove(position, nextPosition))
+		return true;
+	else
+		return false;
+}
+
 
 void Board::populateTiles()
 {
@@ -175,7 +356,7 @@ void Board::populateTiles()
 
 bool Board::isRookMoveValid(const tuple<char, int>& position, const tuple<char, int>& nextPosition) const
 {
-	if (isVerticalMove(position, nextPosition))
-		return true;
-	return false;
+	if (isHorizontalMove(position, nextPosition) || isVerticalMove(position, nextPosition))
+		if (isPathValid(position, nextPosition))
+			return true;
 }

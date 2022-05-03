@@ -17,6 +17,10 @@ public:
 	std::unique_ptr<Piece> setPiece(std::unique_ptr<Piece> piece);
 	void modifyTextButton(QString icon) const;
 	void buttonSelected();
+	Piece* getPiece();
+	void movePiece(Tile& prochaineTile);
+
+
 private:
 	std::unique_ptr<Piece> pieceOnTile_ = nullptr;
 	QPushButton* button_;

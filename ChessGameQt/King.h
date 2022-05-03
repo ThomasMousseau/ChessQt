@@ -17,5 +17,4 @@ public:
 private:
 	static int nInstancesWhite_;
 	static int nInstancesBlack_;
-
 };
