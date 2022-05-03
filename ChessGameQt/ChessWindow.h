@@ -30,8 +30,11 @@ namespace graphicinterface
         ChessWindow(QWidget* parent = nullptr);
         ChessWindow(QGraphicsScene* scene, QWidget* parent = 0);
     public slots:
-        void buttonClicked();
         void addPiece(std::tuple<char, int>, std::string);
+    	void buttonClicked();
+
+    	signals:
+            void tileSelected(std::tuple<char, int>);
 
     private:
         void populateBoard();

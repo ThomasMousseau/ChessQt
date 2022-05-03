@@ -15,9 +15,12 @@ class Tile: public QObject
 public:
 	Tile(std::tuple<char, int> coords);
 	std::unique_ptr<Piece> setPiece(std::unique_ptr<Piece> piece);
+	Piece* getPiece();
+	void movePiece(Tile& prochaineTile);
 
-signals:
-	void tileTextModified(std::tuple<char, int>, std::string);
+	signals:
+		void tileTextModified(std::tuple<char, int>, std::string);
+
 
 private:
 	std::unique_ptr<Piece> pieceOnTile_ = nullptr;

@@ -47,11 +47,12 @@ int main(int argc, char *argv[])
 	view->setBackgroundBrush(*brush);
 
 	graphicinterface::ChessWindow chessWindow(scene);
-	std::shared_ptr<gamelogic::Board> board = std::make_shared<gamelogic::Board>();
+	gamelogic::Board* board = new gamelogic::Board();
 
 	for(auto&& tile: board->getTiles())
 	{
 		QObject::connect(tile, SIGNAL(tileTextModified(std::tuple<char,int>, std::string)), &chessWindow, SLOT(addPiece(std::tuple<char, int>, std::string)));
+		QObject::connect(&chessWindow, SIGNAL(tileSelected(std::tuple<char, int>)), board, SLOT(findValidMoves(std::tuple<char, int>)));
 	}
 
 	try
@@ -67,7 +68,8 @@ int main(int argc, char *argv[])
 
 	chessWindow.setCentralWidget(view);
 	chessWindow.show();
-	
+
+	Raii aquisitionBoard(board);
 	Raii aquisitionScene(scene);
 	Raii aquisitionView(view);
 	Raii aquisitionBrush(brush);

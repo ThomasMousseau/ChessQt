@@ -65,12 +65,20 @@ QPushButton* graphicinterface::ChessWindow::addButton(int posI, int posJ)
 
 void ChessWindow::buttonClicked()
 {
-	/*QPushButton* button = qobject_cast<QPushButton*>(sender());
+	QPushButton* button = qobject_cast<QPushButton*>(sender());
 	QPalette pal = button->palette();
 	pal.setColor(QPalette::Button, Qt::green);
 	button->setPalette(pal);
 	button->setAutoFillBackground(true);
-	button->update();*/
+	button->update();
+
+	for(auto&& square: squares_)
+	{
+		if (button == square.second)
+		{
+			emit tileSelected(square.first);
+		}
+	}
 }
 
 

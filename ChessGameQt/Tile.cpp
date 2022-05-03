@@ -19,3 +19,15 @@ unique_ptr<Piece> Tile::setPiece(unique_ptr<Piece> piece)
 	emit tileTextModified(position_, pieceOnTile_->getPieceSymbol());
 	return movingTile;
 }
+Piece* Tile::getPiece()
+{
+	unique_ptr<Piece> movingTile = std::move(pieceOnTile_);
+	return movingTile.get();
+}
+
+void Tile::movePiece(Tile& prochaineTile)
+{
+	this->pieceOnTile_ = move(prochaineTile.pieceOnTile_);
+	prochaineTile.pieceOnTile_ = nullptr;
+
+}
