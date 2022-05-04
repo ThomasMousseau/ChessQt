@@ -56,6 +56,8 @@ namespace gamelogic
 		void createKings();
 		void movePiece(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition);
 		bool isValidMove(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition) const;
+		void checkAllTiles(const std::tuple<char, int>& position);
+		void resetAllTiles();
 
 		std::tuple<char, int> getKingLocation(Color) const;
 		std::vector<std::tuple<char, int>> getPieceLocations(Color) const;

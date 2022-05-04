@@ -117,7 +117,7 @@ unique_ptr<Piece> Board::setPiece(const tuple<char, int>& position, unique_ptr<P
 }
 void Board::movePiece(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition)
 {
-	tiles_[nextPosition]->movePiece(*tiles_[nextPosition].get()); //JSP si cette ligne va fonctionner
+	tiles_[nextPosition]->movePiece(*tiles_[position].get()); //JSP si cette ligne va fonctionner
 
 }
 
@@ -296,7 +296,7 @@ void Board::findValidMoves(std::tuple<char, int> currPosition)
 		std::vector<std::tuple<char, int>> possibleMoves = pieceOnTile->movesAlgorithm(currPosition, pieceOnTile->getColor());
 		possibleMovesFilter(possibleMoves);
 		emit possibleMovesChanged(possibleMoves);
-		isWaitingForAMove_ = true;
+		//isWaitingForAMove_ = true; 
 	}
 }
 
@@ -340,8 +340,8 @@ bool Board::isPawnMoveValid(const tuple<char, int>& position, const tuple<char, 
 
 		if (moveLength == 2)
 		{
-			/*if (tiles_.find(position)->second.get()->getPiece()->getNTimesMoved() == 0)
-				return true;*/ //donne une erreur
+			//if (tiles_.find(position)->second.get()->getPiece()->getNTimesMoved() == 0)
+				//return true; //donne une erreur
 		}
 		else if (moveLength == 1)
 			return true;
@@ -411,16 +411,36 @@ bool Board::isValidMove(const std::tuple<char, int>& position, const std::tuple<
 		switch(piece->getType())
 		{
 			case Type::BISHOP : return isBishopMoveValid(position, nextPosition);
-			case Type::KING: return isKingMoveValid(position, nextPosition);
-			case Type::ROOK: return isRookMoveValid(position, nextPosition);
-			case Type::QUEEN: return isQueenMoveValid(position, nextPosition);
-			case Type::PAWN: return isPawnMoveValid(position, nextPosition);
-			case Type::KNIGHT: return isKnightMoveValid(position, nextPosition);
+			case Type::KING : return isKingMoveValid(position, nextPosition);
+			case Type::ROOK : return isRookMoveValid(position, nextPosition);
+			case Type::QUEEN : return isQueenMoveValid(position, nextPosition);
+			case Type::PAWN : return isPawnMoveValid(position, nextPosition);
+			case Type::KNIGHT : return isKnightMoveValid(position, nextPosition);
 		}
 	}
 	//il manque un return?
 }
 
+void Board::checkAllTiles(const std::tuple<char, int>& position)
+{
+	Piece* piece = getPiece(position);
+	//piece me sera utilse pour determiner le type de piece
+
+	for(auto it = tiles_.begin(); it != tiles_.end(); ++it)
+	{
+		if (isRookMoveValid(position, it->first))
+			it->second.get()->indeedValidMove(); 
+	}
+}
+
+void Board::resetAllTiles() //cette fonction sera call lorsqu<on touche une autre tile 
+{
+	for (auto it = tiles_.begin(); it != tiles_.end(); ++it)
+	{
+		it->second->notValidMove();
+	}
+
+}
 std::tuple<char, int> Board::getKingLocation(Color color) const
 {
 	for (auto const& tile : tiles_) {
