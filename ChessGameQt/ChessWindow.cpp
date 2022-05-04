@@ -66,19 +66,40 @@ QPushButton* graphicinterface::ChessWindow::addButton(int posI, int posJ)
 void ChessWindow::buttonClicked()
 {
 	QPushButton* button = qobject_cast<QPushButton*>(sender());
-	QPalette pal = button->palette();
-	pal.setColor(QPalette::Button, Qt::green);
-	button->setPalette(pal);
-	button->setAutoFillBackground(true);
-	button->update();
 
-	for(auto&& square: squares_)
+	if(button->text() != "") // et == premier click
 	{
-		if (button == square.second)
+		for(auto&& square: squares_)
 		{
-			emit tileSelected(square.first);
+			if (button == square.second)
+			{
+				QPalette pal = button->palette();
+				pal.setColor(QPalette::Button, Qt::green);
+				button->setPalette(pal);
+				button->setAutoFillBackground(true);
+				button->update();
+				emit tileSelected(square.first);
+			}
 		}
 	}
 }
+
+void graphicinterface::ChessWindow::displayPossibleMoves(std::vector<std::tuple<char, int>> possibleMoves)
+{
+	for(auto&& squaresPosition: possibleMoves)
+	{
+		auto button = squares_[squaresPosition];
+		if(button != nullptr)
+		{
+			QPalette pal = button->palette();
+			pal.setColor(QPalette::Button, Qt::green);
+			button->setPalette(pal);
+			button->setAutoFillBackground(true);
+			button->update();
+		}
+	}
+}
+
+
 
 

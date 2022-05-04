@@ -32,6 +32,7 @@ namespace graphicinterface
     public slots:
         void addPiece(std::tuple<char, int>, std::string);
     	void buttonClicked();
+        void displayPossibleMoves(std::vector<std::tuple<char, int>> possibleMoves);
 
     	signals:
             void tileSelected(std::tuple<char, int>);

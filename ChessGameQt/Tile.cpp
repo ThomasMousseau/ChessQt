@@ -21,8 +21,7 @@ unique_ptr<Piece> Tile::setPiece(unique_ptr<Piece> piece)
 }
 Piece* Tile::getPiece()
 {
-	unique_ptr<Piece> movingTile = std::move(pieceOnTile_);
-	return movingTile.get();
+	return pieceOnTile_.get();
 }
 
 void Tile::movePiece(Tile& prochaineTile)

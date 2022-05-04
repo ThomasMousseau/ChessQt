@@ -13,4 +13,5 @@ class Rook : public Piece
 public:
 	Rook(Color c);
 	~Rook() override = default;
+	std::vector<std::tuple<char, int>> movesAlgorithm(std::tuple<char, int>, Color) override;
 };

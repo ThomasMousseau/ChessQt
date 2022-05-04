@@ -39,6 +39,7 @@ public:
 	std::string getPieceSymbol() const { return pieceSymbol_; }
 	int getNTimesMoved() const { return nTimeMoved; }
 	void incrementNTimeMoves() { nTimeMoved++; }
+	virtual std::vector<std::tuple<char, int>> movesAlgorithm(std::tuple<char, int>, Color) = 0;
 
 protected:
 	Type type_;

@@ -30,4 +30,16 @@ King::King(Color color) : Piece(Type::KING, color)
 	}
 }
 
+std::vector<std::tuple<char, int>> King::movesAlgorithm(std::tuple<char, int> coords, Color pieceColor)
+{
+	std::vector<std::tuple<char, int>> possibleMovesVect;
+
+	possibleMovesVect.emplace_back(get<0>(coords)+1, get<1>(coords));
+	possibleMovesVect.emplace_back(get<0>(coords), get<1>(coords) +1);
+	possibleMovesVect.emplace_back(get<0>(coords), get<1>(coords)-1);
+	possibleMovesVect.emplace_back(get<0>(coords)-1, get<1>(coords));
+
+	return possibleMovesVect;
+}
+
 

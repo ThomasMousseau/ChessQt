@@ -32,6 +32,7 @@ Board::Board()
 	//ON DOIT GARDER POPULATETILES C<EST LA DISPOSITION DES PIECES CREATE_PIECES
 	//if (false)
 	populateTiles(); //classicDisposition
+	isWaitingForAMove_ = false;
 	//else
 	//	populateTilesCheckDispotion
 }
@@ -53,6 +54,11 @@ void gamelogic::Board::createPieces()
 	createPawns();
 	createKnights();
 	createQueens();
+}
+
+void gamelogic::Board::possibleMovesFilter(std::vector<std::tuple<char, int>> possibleMoves)
+{
+	
 }
 
 void Board::createBishops()
@@ -275,7 +281,23 @@ bool Board::isOccupiedDifferentColor(const tuple<char, int>& position, const tup
 
 void Board::findValidMoves(std::tuple<char, int> currPosition)
 {
-	
+	Piece* pieceOnTile = nullptr;
+	for(auto&& tile: tiles_)
+	{
+		if(tile.first == currPosition)
+		{
+			pieceOnTile = tile.second.get()->getPiece();
+			break;
+		}
+	}
+
+	if(pieceOnTile != nullptr)
+	{
+		std::vector<std::tuple<char, int>> possibleMoves = pieceOnTile->movesAlgorithm(currPosition, pieceOnTile->getColor());
+		possibleMovesFilter(possibleMoves);
+		emit possibleMovesChanged(possibleMoves);
+		isWaitingForAMove_ = true;
+	}
 }
 
 bool Board::isPawnMoveValid(const tuple<char, int>& position, const tuple<char, int>& nextPosition) const
@@ -318,8 +340,8 @@ bool Board::isPawnMoveValid(const tuple<char, int>& position, const tuple<char, 
 
 		if (moveLength == 2)
 		{
-			if (tiles_.find(position)->second.get()->getPiece()->getNTimesMoved() == 0)
-				return true;
+			/*if (tiles_.find(position)->second.get()->getPiece()->getNTimesMoved() == 0)
+				return true;*/ //donne une erreur
 		}
 		else if (moveLength == 1)
 			return true;
@@ -384,7 +406,7 @@ bool Board::isValidMove(const std::tuple<char, int>& position, const std::tuple<
 		return false;
 	else
 	{
-		piece->incrementNTimeMoves();
+		//piece->incrementNTimeMoves(); donne une erreur
 
 		switch(piece->getType())
 		{

@@ -13,6 +13,7 @@ class Queen :public Piece
 public:
 	Queen(Color);
 	~Queen() override = default;
+	std::vector<std::tuple<char, int>> movesAlgorithm(std::tuple<char, int>, Color) override;
 private:
 };
 

@@ -29,6 +29,7 @@ namespace gamelogic
 
 		std::vector<Tile*> getTiles() const;
 		void createPieces();
+		void possibleMovesFilter(std::vector<std::tuple<char, int>>);
 
 		bool isOnBoard(const std::tuple<char, int>& position) const;
 		bool isOccupied(const std::tuple<char, int>& position) const;
@@ -61,6 +62,9 @@ namespace gamelogic
 
 	public slots:
 		void findValidMoves(std::tuple<char, int>);
+
+		signals:
+			void possibleMovesChanged(std::vector<std::tuple<char, int>> possibleMoves);
 		
 	private:
 		std::map<std::tuple<char, int>, std::unique_ptr<Tile>> tiles_;
@@ -70,6 +74,7 @@ namespace gamelogic
 		void createQueens();
 		void createPawns();
 		void createKnights();
+		bool isWaitingForAMove_; //id/e pour gerer le premier clic et 2iem clic
 		
 	};
 }

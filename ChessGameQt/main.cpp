@@ -66,6 +66,8 @@ int main(int argc, char *argv[])
 		messageBox.critical(qobject_cast<QWidget*>(scene), "QTERROR", e.what());
 	}
 
+	QObject::connect(board, SIGNAL(possibleMovesChanged(std::vector<std::tuple<char, int>>)), &chessWindow, SLOT(displayPossibleMoves(std::vector<std::tuple<char, int>>)));
+
 	chessWindow.setCentralWidget(view);
 	chessWindow.show();
 

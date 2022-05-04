@@ -13,6 +13,7 @@ class Bishop : public Piece
 public:
 	Bishop(Color c);
 	~Bishop() override = default;
+	std::vector<std::tuple<char, int>> movesAlgorithm(std::tuple<char, int>, Color) override;
 private:
 
 };
