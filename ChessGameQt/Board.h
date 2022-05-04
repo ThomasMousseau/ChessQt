@@ -51,13 +51,13 @@ namespace gamelogic
 		bool isRookMoveValid(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition) const;
 		bool isBishopMoveValid(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition) const;
 		bool isQueenMoveValid(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition) const;
-		bool isPawnMoveValid(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition) const;
+		bool isPawnMoveValid(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition, bool isSimulated) const;
 		bool isKnightMoveValid(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition) const;
 
 		void createKings();
 		void movePiece(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition);
 		bool isValidMove(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition) const;
-		void checkAllTiles(const std::tuple<char, int>& position);
+		
 		void resetAllTiles();
 
 
@@ -65,8 +65,10 @@ namespace gamelogic
 		std::vector<std::tuple<char, int>> getPieceLocations(Color) const;
 
 	public slots:
-		void findValidMoves(std::tuple<char, int>);
+		//void findValidMoves(std::tuple<char, int>);
+		void checkAllTiles(const std::tuple<char, int>& position);
 		void moveLogic(std::tuple<char, int>& position, std::tuple<char, int>& nextPosition);
+
 		
 		signals:
 			void possibleMovesChanged(std::vector<std::tuple<char, int>> possibleMoves);

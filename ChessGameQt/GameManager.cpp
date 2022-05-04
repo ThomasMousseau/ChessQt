@@ -20,7 +20,7 @@ bool GameManager::move(std::tuple<char, int> position, std::tuple<char, int> nex
 
 Color GameManager::getTurn() const
 {
-	if (this->moveNumber % 2 == 0)
+	if (this->moveNumber % 2 == 0) //savoir ou inc moveNumber
 		return Color::WHITE;
 	return Color::BLACK;
 }

@@ -111,6 +111,11 @@ void ChessWindow::buttonClicked()
 
 		resetBoard();
 	}
+
+	else if (clickedPositions.size() == 1 && button->text() != "")
+	{
+		resetBoard();
+	}
 }
 
 void graphicinterface::ChessWindow::displayPossibleMoves(std::vector<std::tuple<char, int>> possibleMoves)
