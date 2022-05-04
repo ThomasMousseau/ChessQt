@@ -23,6 +23,24 @@ ChessWindow::ChessWindow(QGraphicsScene* scene, QWidget* parent) : QMainWindow(p
 	populateBoard();
 }
 
+void graphicinterface::ChessWindow::resetBoard()
+{
+	clickedPositions.clear();
+
+	for(auto&& square : squares_)
+	{
+		QPalette pal = square.second->palette();
+		if ((get<0>(square.first) + get<1>(square.first)) % 2)
+			pal.setColor(QPalette::Button, Qt::gray);
+		else
+			pal.setColor(QPalette::Button, Qt::red);
+
+		square.second->setPalette(pal);
+		square.second->setAutoFillBackground(true);
+		square.second->update();
+	}
+}
+
 void graphicinterface::ChessWindow::addPiece(std::tuple<char, int> coords, std::string symbol)
 {
 	squares_[coords]->setText(QString::fromStdString(symbol));
@@ -67,42 +85,32 @@ void ChessWindow::buttonClicked()
 {
 	QPushButton* button = qobject_cast<QPushButton*>(sender());
 
-	//if(button->text() != "") // et == premier click
-	//{
-	if (clickedPositions.empty() && button->text() != "") //Voir tour
+	if (clickedPositions.size() == 0 && button->text() != "") //Voir tour
 	{
 		for(auto&& square: squares_)
 		{
 			if (button == square.second)
 			{
-				QPalette pal = button->palette();
-				pal.setColor(QPalette::Button, Qt::green);
-				button->setPalette(pal);
-				button->setAutoFillBackground(true);
-				button->update();
-				clickedPositions.at(0) = square.first;
+				clickedPositions.push_back(square.first);
 				emit tileSelected(square.first);
 				break;
 			}
 		}
 	}
-	else if(!clickedPositions.empty() && button->palette() == Qt::green)
+	else if(clickedPositions.size() == 1 && button->palette().color(QPalette::Button) == Qt::green)
 	{
 		for (auto&& square : squares_)
 		{
 			if (button == square.second)
 			{
-				clickedPositions.at(1) = square.first;
+				clickedPositions.push_back(square.first);
 				emit secondClick(clickedPositions.at(0), clickedPositions.at(1));
 				break;
 			}
 		}
 
-		std::fill_n(clickedPositions, clickedPositions.size(), 0);
+		resetBoard();
 	}
-	
-		
-	//}
 }
 
 void graphicinterface::ChessWindow::displayPossibleMoves(std::vector<std::tuple<char, int>> possibleMoves)

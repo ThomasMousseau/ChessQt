@@ -27,6 +27,7 @@ Piece* Tile::getPiece()
 void Tile::movePiece(Tile& prochaineTile)
 {
 	this->pieceOnTile_ = move(prochaineTile.pieceOnTile_);
-	prochaineTile.pieceOnTile_ = nullptr;
+	emit tileTextModified(position_, pieceOnTile_->getPieceSymbol());
 
+	prochaineTile.pieceOnTile_ = nullptr;
 }

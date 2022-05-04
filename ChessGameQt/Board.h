@@ -30,6 +30,7 @@ namespace gamelogic
 		std::vector<Tile*> getTiles() const;
 		void createPieces();
 		void possibleMovesFilter(std::vector<std::tuple<char, int>>);
+		bool isOccupiedSameColor(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition) const;
 
 		bool isOnBoard(const std::tuple<char, int>& position) const;
 		bool isOccupied(const std::tuple<char, int>& position) const;
@@ -56,6 +57,8 @@ namespace gamelogic
 		void createKings();
 		void movePiece(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition);
 		bool isValidMove(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition) const;
+		void checkAllTiles(const std::tuple<char, int>& position);
+		void resetAllTiles();
 
 
 		std::tuple<char, int> getKingLocation(Color) const;

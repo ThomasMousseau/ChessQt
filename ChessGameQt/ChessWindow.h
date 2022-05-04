@@ -29,6 +29,8 @@ namespace graphicinterface
     public:
         ChessWindow(QWidget* parent = nullptr);
         ChessWindow(QGraphicsScene* scene, QWidget* parent = 0);
+        void resetBoard();
+
     public slots:
         void addPiece(std::tuple<char, int>, std::string);
     	void buttonClicked();
@@ -36,14 +38,14 @@ namespace graphicinterface
 
     	signals:
             void tileSelected(std::tuple<char, int>);
-            void secondClick(std::tuple<char, int>, std::tuple<char, int>);
+            void secondClick(std::tuple<char, int>&, std::tuple<char, int>&);
 
     private:
         void populateBoard();
         QPushButton* addButton(int, int);
         QGraphicsScene* scene_;
         std::map<std::tuple<char, int>, QPushButton*> squares_;
-        std::array<std::tuple<char, int>, 2> clickedPositions{};
+        std::vector<std::tuple<char, int>> clickedPositions;
     };
 }
 

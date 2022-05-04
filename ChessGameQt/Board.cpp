@@ -32,7 +32,6 @@ Board::Board()
 	//ON DOIT GARDER POPULATETILES C<EST LA DISPOSITION DES PIECES CREATE_PIECES
 	//if (false)
 	populateTiles(); //classicDisposition
-	isWaitingForAMove_ = false;
 	//else
 	//	populateTilesCheckDispotion
 }
@@ -59,6 +58,33 @@ void gamelogic::Board::createPieces()
 void gamelogic::Board::possibleMovesFilter(std::vector<std::tuple<char, int>> possibleMoves)
 {
 	
+}
+
+bool Board::isOccupiedSameColor(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition) const
+{
+	const Piece* fromPiece = getPiece(position);
+	Color fromColor;
+	if (fromPiece != nullptr)
+	{
+		fromColor = fromPiece->getColor();
+	}
+	else
+	{
+		return false;
+	}
+
+	const Piece* toPiece = getPiece(nextPosition);
+	Color toColor;
+	if (toPiece != nullptr)
+	{
+		toColor = toPiece->getColor();
+	}
+	else
+	{
+		return false;
+	}
+
+	return fromColor == toColor;
 }
 
 void Board::createBishops()
@@ -117,7 +143,8 @@ unique_ptr<Piece> Board::setPiece(const tuple<char, int>& position, unique_ptr<P
 }
 void Board::movePiece(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition)
 {
-	tiles_[nextPosition]->movePiece(*tiles_[nextPosition].get()); //JSP si cette ligne va fonctionner
+	tiles_[nextPosition]->movePiece(*tiles_[position].get()); //JSP si cette ligne va fonctionner
+	emit tiles_[position]->tileTextModified(position, "");
 }
 
 bool Board::isOnBoard(const tuple<char, int>& coords) const
@@ -200,14 +227,14 @@ bool Board::isPathValid(const tuple<char, int>& position, const tuple<char, int>
 	bool isAtFinalTile;
 	do
 	{
-		get<0>(posActuel) =+ composantVecteurVer; 
-		get<1>(posActuel) =+ composantVecteurHor;
+		get<0>(posActuel) += composantVecteurVer; 
+		get<1>(posActuel) += composantVecteurHor;
 
-		isAtFinalTile = get<0>(posActuel) != get<0>(nextPosition) && get<1>(posActuel) != get<1>(nextPosition);
+		isAtFinalTile = get<0>(posActuel) == get<0>(nextPosition) && get<1>(posActuel) == get<1>(nextPosition);
 
 		if(isAtFinalTile)
 		{
-			if (!isOccupiedDifferentColor(position,posActuel))
+			if (isOccupiedSameColor(position,posActuel))
 				return false;
 		}
 		else
@@ -338,8 +365,8 @@ bool Board::isPawnMoveValid(const tuple<char, int>& position, const tuple<char, 
 
 		if (moveLength == 2)
 		{
-			/*if (tiles_.find(position)->second.get()->getPiece()->getNTimesMoved() == 0)
-				return true;*/ //donne une erreur
+			if (tiles_.find(position)->second.get()->getPiece()->getNTimesMoved() == 0)
+				return true; //donne une erreur
 		}
 		else if (moveLength == 1)
 			return true;
@@ -396,7 +423,7 @@ bool Board::isValidMove(const std::tuple<char, int>& position, const std::tuple<
 	if (!isOnBoard(position) || !isOnBoard(nextPosition))
 		return false;
 
-	if (!isOccupiedDifferentColor(position, nextPosition))
+	if (isOccupiedSameColor(position, nextPosition))
 		return false;
 
 	Piece* piece = getPiece(position);
@@ -409,16 +436,36 @@ bool Board::isValidMove(const std::tuple<char, int>& position, const std::tuple<
 		switch(piece->getType())
 		{
 			case Type::BISHOP : return isBishopMoveValid(position, nextPosition);
-			case Type::KING: return isKingMoveValid(position, nextPosition);
-			case Type::ROOK: return isRookMoveValid(position, nextPosition);
-			case Type::QUEEN: return isQueenMoveValid(position, nextPosition);
-			case Type::PAWN: return isPawnMoveValid(position, nextPosition);
-			case Type::KNIGHT: return isKnightMoveValid(position, nextPosition);
+			case Type::KING : return isKingMoveValid(position, nextPosition);
+			case Type::ROOK : return isRookMoveValid(position, nextPosition);
+			case Type::QUEEN : return isQueenMoveValid(position, nextPosition);
+			case Type::PAWN : return isPawnMoveValid(position, nextPosition);
+			case Type::KNIGHT : return isKnightMoveValid(position, nextPosition);
 		}
 	}
 	//il manque un return?
 }
 
+void Board::checkAllTiles(const std::tuple<char, int>& position)
+{
+	Piece* piece = getPiece(position);
+	//piece me sera utilse pour determiner le type de piece
+
+	for(auto it = tiles_.begin(); it != tiles_.end(); ++it)
+	{
+		if (isRookMoveValid(position, it->first))
+			it->second.get()->indeedValidMove(); 
+	}
+}
+
+void Board::resetAllTiles() //cette fonction sera call lorsqu<on touche une autre tile 
+{
+	for (auto it = tiles_.begin(); it != tiles_.end(); ++it)
+	{
+		it->second->notValidMove();
+	}
+
+}
 std::tuple<char, int> Board::getKingLocation(Color color) const
 {
 	for (auto const& tile : tiles_) {
@@ -451,6 +498,5 @@ void gamelogic::Board::moveLogic(std::tuple<char, int>& position, std::tuple<cha
 	if(isValidMove(position, nextPosition))
 	{
 		movePiece(position, nextPosition);
-		 
 	}
 }
