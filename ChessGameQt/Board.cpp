@@ -118,7 +118,6 @@ unique_ptr<Piece> Board::setPiece(const tuple<char, int>& position, unique_ptr<P
 void Board::movePiece(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition)
 {
 	tiles_[nextPosition]->movePiece(*tiles_[nextPosition].get()); //JSP si cette ligne va fonctionner
-
 }
 
 bool Board::isOnBoard(const tuple<char, int>& coords) const
@@ -296,7 +295,6 @@ void Board::findValidMoves(std::tuple<char, int> currPosition)
 		std::vector<std::tuple<char, int>> possibleMoves = pieceOnTile->movesAlgorithm(currPosition, pieceOnTile->getColor());
 		possibleMovesFilter(possibleMoves);
 		emit possibleMovesChanged(possibleMoves);
-		isWaitingForAMove_ = true;
 	}
 }
 
@@ -446,4 +444,13 @@ std::vector<std::tuple<char, int>> Board::getPieceLocations(Color color) const
 	}
 
 	return pieceLocations;
+}
+
+void gamelogic::Board::moveLogic(std::tuple<char, int>& position, std::tuple<char, int>& nextPosition)
+{
+	if(isValidMove(position, nextPosition))
+	{
+		movePiece(position, nextPosition);
+		 
+	}
 }

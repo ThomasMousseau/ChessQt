@@ -53,6 +53,7 @@ int main(int argc, char *argv[])
 	{
 		QObject::connect(tile, SIGNAL(tileTextModified(std::tuple<char,int>, std::string)), &chessWindow, SLOT(addPiece(std::tuple<char, int>, std::string)));
 		QObject::connect(&chessWindow, SIGNAL(tileSelected(std::tuple<char, int>)), board, SLOT(findValidMoves(std::tuple<char, int>)));
+		QObject::connect(&chessWindow, SIGNAL(secondClick(std::tuple<char, int>, std::tuple<char, int>)), board, SLOT(moveLogic(std::tuple<char, int>, std::tuple<char, int>)));
 	}
 
 	try
@@ -67,6 +68,8 @@ int main(int argc, char *argv[])
 	}
 
 	QObject::connect(board, SIGNAL(possibleMovesChanged(std::vector<std::tuple<char, int>>)), &chessWindow, SLOT(displayPossibleMoves(std::vector<std::tuple<char, int>>)));
+	
+
 
 	chessWindow.setCentralWidget(view);
 	chessWindow.show();

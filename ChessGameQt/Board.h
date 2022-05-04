@@ -57,12 +57,14 @@ namespace gamelogic
 		void movePiece(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition);
 		bool isValidMove(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition) const;
 
+
 		std::tuple<char, int> getKingLocation(Color) const;
 		std::vector<std::tuple<char, int>> getPieceLocations(Color) const;
 
 	public slots:
 		void findValidMoves(std::tuple<char, int>);
-
+		void moveLogic(std::tuple<char, int>& position, std::tuple<char, int>& nextPosition);
+		
 		signals:
 			void possibleMovesChanged(std::vector<std::tuple<char, int>> possibleMoves);
 		
@@ -74,7 +76,6 @@ namespace gamelogic
 		void createQueens();
 		void createPawns();
 		void createKnights();
-		bool isWaitingForAMove_; //id/e pour gerer le premier clic et 2iem clic
 		
 	};
 }

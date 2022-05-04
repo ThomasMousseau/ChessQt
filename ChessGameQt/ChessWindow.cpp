@@ -67,7 +67,9 @@ void ChessWindow::buttonClicked()
 {
 	QPushButton* button = qobject_cast<QPushButton*>(sender());
 
-	if(button->text() != "") // et == premier click
+	//if(button->text() != "") // et == premier click
+	//{
+	if (clickedPositions.empty() && button->text() != "") //Voir tour
 	{
 		for(auto&& square: squares_)
 		{
@@ -78,10 +80,29 @@ void ChessWindow::buttonClicked()
 				button->setPalette(pal);
 				button->setAutoFillBackground(true);
 				button->update();
+				clickedPositions.at(0) = square.first;
 				emit tileSelected(square.first);
+				break;
 			}
 		}
 	}
+	else if(!clickedPositions.empty() && button->palette() == Qt::green)
+	{
+		for (auto&& square : squares_)
+		{
+			if (button == square.second)
+			{
+				clickedPositions.at(1) = square.first;
+				emit secondClick(clickedPositions.at(0), clickedPositions.at(1));
+				break;
+			}
+		}
+
+		std::fill_n(clickedPositions, clickedPositions.size(), 0);
+	}
+	
+		
+	//}
 }
 
 void graphicinterface::ChessWindow::displayPossibleMoves(std::vector<std::tuple<char, int>> possibleMoves)
