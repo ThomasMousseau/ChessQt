@@ -42,6 +42,8 @@ namespace graphicinterface
         void updateBoard();
         void clearBoard();
 
+        void endGame();
+
     public slots:
         void addPiece(std::tuple<char, int>, std::string);
     	void buttonClicked();

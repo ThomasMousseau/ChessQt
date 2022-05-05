@@ -176,6 +176,12 @@ QPushButton* graphicinterface::ChessWindow::addButton(int posI, int posJ)
 
 void ChessWindow::buttonClicked()
 {
+
+	/*if (board_->isCheckMate(Color::BLACK))
+		endGame();
+	if (board_->isCheckMate(Color::WHITE))
+		endGame();*/
+
 	QPushButton* button = qobject_cast<QPushButton*>(sender());
 
 	if (clickedPositions_.size() == 0 && button->text() != "") //Voir tour
@@ -293,6 +299,11 @@ void ChessWindow::buttonSpecialModeClicked()
 	board_->createSpecialSituation();
 
 	updateBoard();
+}
+
+void ChessWindow::endGame()
+{
+	
 }
 
 

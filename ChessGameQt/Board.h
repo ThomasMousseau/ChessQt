@@ -55,6 +55,7 @@ namespace gamelogic
 		void createKings();
 		void movePiece(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition);
 		bool isValidMove(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition) const;
+		bool nextMoveIsSafe(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition, Color defendingColor) const;
 		
 		void resetAllTiles();
 		std::tuple<char, int> getKingLocation(Color) const;
@@ -67,6 +68,10 @@ namespace gamelogic
 		void creationSpecialSituation() { isCreationSpecialSituation = true; }
 
 		Color getTurn() const;
+
+		void isCheckMate();
+		bool isInCheck(Color defendingColor) const;
+		bool willBeInCheck(const std::tuple<char, int>& nextPosition, Color defendingColor) const;
 
 	public slots:
 		//void findValidMoves(std::tuple<char, int>);
@@ -88,7 +93,9 @@ namespace gamelogic
 		void createKnights();
 
 		bool isCreationSpecialSituation = false;
-		int moveNumber_ = 0; //le mettre static^
+		int moveNumber_ = 0; 
+
+
 		
 	};
 }
