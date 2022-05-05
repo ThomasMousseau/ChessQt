@@ -586,7 +586,7 @@ Color Board::getTurn() const
 
 void Board::isCheckMate() 
 {
-	emit(endGame())
+	emit GameEnded();
 }
 bool Board::isInCheck(Color defendingColor) const
 {

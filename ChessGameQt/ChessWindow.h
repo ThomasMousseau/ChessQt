@@ -52,6 +52,7 @@ namespace graphicinterface
         void connectButtonToTile();
         void buttonNormalModeClicked();
         void buttonSpecialModeClicked();
+        void EndGameMessage();
 
     private:
         void populateBoard();

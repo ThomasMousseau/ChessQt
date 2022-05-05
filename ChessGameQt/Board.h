@@ -82,6 +82,7 @@ namespace gamelogic
 		signals:
 			void possibleMovesChanged(std::vector<std::tuple<char, int>> possibleMoves);
 			void turnChanged(Color);
+			void GameEnded();
 		
 	private:
 		std::map<std::tuple<char, int>, std::unique_ptr<Tile>> tiles_;

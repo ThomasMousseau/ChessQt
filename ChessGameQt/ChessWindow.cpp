@@ -257,6 +257,7 @@ void graphicinterface::ChessWindow::connectButtonToTile()
 
 	QObject::connect(board_, SIGNAL(possibleMovesChanged(std::vector<std::tuple<char, int>>)), this, SLOT(displayPossibleMoves(std::vector<std::tuple<char, int>>)));
 	QObject::connect(board_, SIGNAL(turnChanged(Color)), this, SLOT(displayPlayerTurn(Color)));
+	QObject::connect(board_, SIGNAL(GameEnded()), this, SLOT(EndGameMessage()));
 }
 
 void ChessWindow::buttonNormalModeClicked()
@@ -299,6 +300,12 @@ void ChessWindow::buttonSpecialModeClicked()
 	board_->createSpecialSituation();
 
 	updateBoard();
+}
+
+void graphicinterface::ChessWindow::EndGameMessage()
+{
+	QMessageBox* message = new QMessageBox();
+	message->critical(this, "Won", "We have a winner!");
 }
 
 void ChessWindow::endGame()
