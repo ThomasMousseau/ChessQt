@@ -1,16 +1,19 @@
 #include "GameManager.h"
 
 
+GameManager::GameManager(gamelogic::Board board) : board_(board)
+{
+}
+
+
 void GameManager::manage()
 {
-	while(true)
+	/*while(true)
 	{
 		if (isCheckMate(getTurn()))
 			break;
 
-		//check Input 
-
-	}
+	}*/
 }
 
 bool GameManager::move(std::tuple<char, int> position, std::tuple<char, int> nextPosition)
@@ -18,18 +21,21 @@ bool GameManager::move(std::tuple<char, int> position, std::tuple<char, int> nex
 	return false;
 }
 
-Color GameManager::getTurn() const
-{
-	if (this->moveNumber % 2 == 0) //savoir ou inc moveNumber
-		return Color::WHITE;
-	return Color::BLACK;
-}
+//Color GameManager::getTurn() const
+//{
+//	if (board_.getMoveNumber() % 2 == 0)
+//		return Color::WHITE;
+//	return Color::BLACK;
+//}
 
 bool GameManager::isCheckMate(Color defendingColor) const
 {
 	if (isInCheck(defendingColor))
 	{
-		return true; //je dois continuer cette fonction
+		//regarde les position possible du king
+		//regarde si ses postions sont atteinable par une des pieces adverse
+		//si aucune possibilit return true
+		//sinon show les possibilite restante du king
 	}
 }
 
@@ -42,12 +48,12 @@ bool GameManager::isInCheck(Color defendingColor) const
 	else
 		attackingColor = Color::WHITE;
 
-	std::tuple<char, int> kingPosition = board.getKingLocation(defendingColor);
-	std::vector<std::tuple<char, int>> piecesPosition = board.getPieceLocations(attackingColor);
+	std::tuple<char, int> kingPosition = board_.getKingLocation(defendingColor);
+	std::vector<std::tuple<char, int>> piecesPosition = board_.getPieceLocations(attackingColor);
 
 	for (auto attackingPiece : piecesPosition)
 	{
-		if (board.isValidMove(attackingPiece, kingPosition))
+		if (board_.isValidMove(attackingPiece, kingPosition))
 			return true;
 	}
 

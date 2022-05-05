@@ -12,6 +12,7 @@
 using namespace gamelogic;
 using namespace std;
 
+
 int Board::ConvertCharToInt(char c)
 {
 	switch (c)
@@ -29,11 +30,9 @@ int Board::ConvertCharToInt(char c)
 
 Board::Board()
 {
-	//ON DOIT GARDER POPULATETILES C<EST LA DISPOSITION DES PIECES CREATE_PIECES
-	//if (false)
-	populateTiles(); //classicDisposition
-	//else
-	//	populateTilesCheckDispotion
+
+	populateTiles();
+
 }
 
 vector<Tile*> Board::getTiles() const
@@ -46,7 +45,7 @@ vector<Tile*> Board::getTiles() const
 	return tileVect;
 }
 
-void gamelogic::Board::createPieces()
+void Board::createPieces()
 {
 	createBishops();
 	createRooks();
@@ -55,9 +54,13 @@ void gamelogic::Board::createPieces()
 	createQueens();
 }
 
-void gamelogic::Board::possibleMovesFilter(std::vector<std::tuple<char, int>> possibleMoves)
+void Board::createSpecialSituation()
 {
-	
+	setPiece(make_tuple('d', 5), make_unique<King>(Color::WHITE));
+	setPiece(make_tuple('f', 7), make_unique<Queen>(Color::WHITE));
+
+	setPiece(make_tuple('d', 8), make_unique<King>(Color::BLACK));
+	setPiece(make_tuple('b', 6), make_unique<Rook>(Color::BLACK));
 }
 
 bool Board::isOccupiedSameColor(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition) const
@@ -436,10 +439,13 @@ bool Board::isValidMove(const std::tuple<char, int>& position, const std::tuple<
 	}
 }
 
-void Board::checkAllTiles(const std::tuple<char, int>& position)
+void Board::checkAllTiles(const std::tuple<char, int>& position) //green tiles
 {
 	std::vector<std::tuple<char, int>> tileAccessible;
 	Piece* piece = getPiece(position);
+
+	if(piece->getColor() != getTurn())
+		return;
 
 	for(auto it = tiles_.begin(); it != tiles_.end(); ++it)
 	{
@@ -503,10 +509,18 @@ std::vector<std::tuple<char, int>> Board::getPieceLocations(Color color) const
 	return pieceLocations;
 }
 
-void gamelogic::Board::moveLogic(std::tuple<char, int>& position, std::tuple<char, int>& nextPosition)
+void Board::moveLogic(std::tuple<char, int>& position, std::tuple<char, int>& nextPosition)
 {
-	if(isValidMove(position, nextPosition))
+	if(isValidMove(position, nextPosition) && tiles_[position].get()->getPiece()->getColor() == getTurn())
 	{
 		movePiece(position, nextPosition);
+		moveNumber_++;
 	}
+}
+
+Color Board::getTurn() const
+{
+	if (moveNumber_ % 2 == 0)
+		return Color::WHITE;
+	return Color::BLACK;
 }

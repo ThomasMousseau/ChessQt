@@ -43,7 +43,9 @@ int main(int argc, char *argv[])
 	QGraphicsScene* scene = new QGraphicsScene();
 	QGraphicsView* view = new QGraphicsView(scene);
 	QBrush* brush = new QBrush(Qt::lightGray, Qt::SolidPattern);
-	
+
+	//ici creation QBOX
+
 	view->setBackgroundBrush(*brush);
 
 	graphicinterface::ChessWindow chessWindow(scene);
@@ -58,8 +60,16 @@ int main(int argc, char *argv[])
 
 	try
 	{
-		board->createPieces();
-		board->createKings();
+		if (board->getIsCreatingSpecialSituation()) //Matt tu dois creer un boutton situation classique ou special (si special est appuye, on doit appeler TODO creationSpecialSituation() 
+		{
+			board->createSpecialSituation();
+		}
+		else
+		{
+			board->createPieces();
+			board->createKings();
+		}
+		
 	}
 	catch (TooManyKingsException& e)
 	{
@@ -68,8 +78,6 @@ int main(int argc, char *argv[])
 	}
 
 	QObject::connect(board, SIGNAL(possibleMovesChanged(std::vector<std::tuple<char, int>>)), &chessWindow, SLOT(displayPossibleMoves(std::vector<std::tuple<char, int>>)));
-	
-
 
 	chessWindow.setCentralWidget(view);
 	chessWindow.show();

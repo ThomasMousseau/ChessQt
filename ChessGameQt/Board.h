@@ -46,7 +46,6 @@ namespace gamelogic
 		Piece* getPiece(const std::tuple<char, int>& position) const;
 		bool isPathValid(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition) const;
 
-		//set of moves for all pieces
 		bool isKingMoveValid(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition) const;
 		bool isRookMoveValid(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition) const;
 		bool isBishopMoveValid(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition) const;
@@ -59,10 +58,16 @@ namespace gamelogic
 		bool isValidMove(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition) const;
 		
 		void resetAllTiles();
-
-
 		std::tuple<char, int> getKingLocation(Color) const;
 		std::vector<std::tuple<char, int>> getPieceLocations(Color) const;
+		void createSpecialSituation();
+
+		int getMoveNumber() { return moveNumber_; }
+
+		bool getIsCreatingSpecialSituation() { return isCreationSpecialSituation; }
+		void creationSpecialSituation() { isCreationSpecialSituation = true; }
+
+		Color getTurn() const;
 
 	public slots:
 		//void findValidMoves(std::tuple<char, int>);
@@ -81,6 +86,9 @@ namespace gamelogic
 		void createQueens();
 		void createPawns();
 		void createKnights();
+
+		bool isCreationSpecialSituation = false;
+		int moveNumber_ = 0; //le mettre static^
 		
 	};
 }
