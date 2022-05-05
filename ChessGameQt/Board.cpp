@@ -30,7 +30,6 @@ int Board::ConvertCharToInt(char c)
 
 Board::Board()
 {
-
 	populateTiles();
 
 }
@@ -515,6 +514,7 @@ void Board::moveLogic(std::tuple<char, int>& position, std::tuple<char, int>& ne
 	{
 		movePiece(position, nextPosition);
 		moveNumber_++;
+		emit turnChanged(getTurn());
 	}
 }
 

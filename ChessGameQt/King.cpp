@@ -6,10 +6,6 @@
 */
 #include "King.h"
 
-int King::nInstancesWhite_ = 0;
-int King::nInstancesBlack_ = 0;
-
-
 King::King(Color color) : Piece(Type::KING, color)
 {
 	const bool condition = (nInstancesBlack_ == 1 && color == Color::BLACK) || (nInstancesWhite_ == 1 && color == Color::WHITE);

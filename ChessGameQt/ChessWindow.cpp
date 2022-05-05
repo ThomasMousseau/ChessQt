@@ -7,6 +7,7 @@
 
 #include "ChessWindow.h"
 
+#include "Board.h"
 #include "Raii.h"
 
 using namespace graphicinterface;
@@ -17,15 +18,83 @@ ChessWindow::ChessWindow(QWidget* parent) :
 
 }
 
-ChessWindow::ChessWindow(QGraphicsScene* scene, QWidget* parent) : QMainWindow(parent)
+void graphicinterface::ChessWindow::addGameModeLabel()
 {
-	scene_ = scene;
+	if(rightLayout_ == nullptr)
+	{
+		rightLayout_ = new QVBoxLayout();
+	}
+
+	gameModeLabel_ = new QLabel();
+	QFont gameModeFont = gameModeLabel_->font();
+	gameModeFont.setPointSize(25);
+	gameModeLabel_->setFont(gameModeFont);
+	gameModeLabel_->setText("Please choose a game mode:");
+	rightLayout_->addWidget(gameModeLabel_, 0, Qt::AlignBottom | Qt::AlignCenter);
+}
+
+void graphicinterface::ChessWindow::addGameModeButton()
+{
+	QHBoxLayout* buttonBoxLayout = new QHBoxLayout();
+	buttonBoxLayout->setSpacing(0);
+
+	QPushButton* buttonModeNormal = new QPushButton();
+	buttonModeNormal->setText("Mode Normal");
+	buttonModeNormal->setFixedSize(200, 100);
+	QObject::connect(buttonModeNormal, &QPushButton::clicked, this, &ChessWindow::buttonNormalModeClicked);
+
+	QPushButton* buttonModeSpecial = new QPushButton();
+	buttonModeSpecial->setText("Mode Special");
+	buttonModeSpecial->setFixedSize(200, 100);
+	QObject::connect(buttonModeSpecial, &QPushButton::clicked, this, &ChessWindow::buttonSpecialModeClicked);
+
+	buttonBoxLayout->addWidget(buttonModeNormal, 0, Qt::AlignTop | Qt::AlignCenter);
+	buttonBoxLayout->addWidget(buttonModeSpecial, 0, Qt::AlignTop | Qt::AlignCenter);
+
+	rightLayout_->addLayout(buttonBoxLayout);
+}
+
+void graphicinterface::ChessWindow::addPlayersTurnLabel()
+{
+	colorTurnLabel_ = new QLabel();
+
+	if(rightLayout_ == nullptr)
+	{
+		rightLayout_ = new QVBoxLayout();
+	}
+	
+	colorTurnLabel_->setText("White's turn");
+	QFont font = colorTurnLabel_->font();
+	font.setPointSize(50);
+	colorTurnLabel_->setFont(font);
+	colorTurnLabel_->setAlignment(Qt::AlignCenter | Qt::AlignTop);
+	layout_->addLayout(rightLayout_);
+	rightLayout_->addWidget(colorTurnLabel_, 0, Qt::AlignTop | Qt::AlignCenter);
+	
+}
+
+ChessWindow::ChessWindow(QHBoxLayout* layout, QWidget* parent) :
+QMainWindow(parent), layout_(layout)
+{
 	populateBoard();
+	addGameModeLabel();
+	addGameModeButton();
+	addPlayersTurnLabel();
+
+	/*}
+	catch (TooManyKingsException& e)
+	{
+		QMessageBox messageBox;
+		messageBox.critical(this, "QTERROR", e.what());
+	}*/
+	
 }
 
 void graphicinterface::ChessWindow::resetBoard()
 {
-	clickedPositions.clear();
+	clickedPositions_.clear();
+
+	
 
 	for(auto&& square : squares_)
 	{
@@ -41,6 +110,22 @@ void graphicinterface::ChessWindow::resetBoard()
 	}
 }
 
+void graphicinterface::ChessWindow::updateBoard()
+{
+	for(auto&& square: squares_)
+	{
+		square.second->update();
+	}
+}
+
+void graphicinterface::ChessWindow::clearBoard()
+{
+	for (auto&& square : squares_)
+	{
+		square.second->setText("");
+	}
+}
+
 void graphicinterface::ChessWindow::addPiece(std::tuple<char, int> coords, std::string symbol)
 {
 	squares_[coords]->setText(QString::fromStdString(symbol));
@@ -48,13 +133,21 @@ void graphicinterface::ChessWindow::addPiece(std::tuple<char, int> coords, std::
 
 void graphicinterface::ChessWindow::populateBoard()
 {
+	QGridLayout* gridLayout = new QGridLayout();
+	gridLayout->setSpacing(0);
+	gridLayout->setVerticalSpacing(0);
+	gridLayout->setHorizontalSpacing(0);
+	gridLayout->setAlignment(Qt::AlignCenter);
+
 	for (char i = 'a'; i <= 'h'; i++)
 	{
 		for (int j = 1; j <= 8; j++)
 		{
-			scene_->addWidget(addButton(i, j));
+			gridLayout->addWidget(addButton(i, j), j, i);
 		}
 	}
+
+	layout_->addLayout(gridLayout);
 }
 
 QPushButton* graphicinterface::ChessWindow::addButton(int posI, int posJ)
@@ -85,26 +178,26 @@ void ChessWindow::buttonClicked()
 {
 	QPushButton* button = qobject_cast<QPushButton*>(sender());
 
-	if (clickedPositions.size() == 0 && button->text() != "") //Voir tour
+	if (clickedPositions_.size() == 0 && button->text() != "") //Voir tour
 	{
 		for(auto&& square: squares_)
 		{
 			if (button == square.second)
 			{
-				clickedPositions.push_back(square.first);
-				emit tileSelected(square.first);
+				clickedPositions_.push_back(square.first);
+				board_->checkAllTiles(square.first);
 				break;
 			}
 		}
 	}
-	else if(clickedPositions.size() == 1 && button->palette().color(QPalette::Button) == Qt::green)
+	else if(clickedPositions_.size() == 1 && button->palette().color(QPalette::Button) == Qt::green)
 	{
 		for (auto&& square : squares_)
 		{
 			if (button == square.second)
 			{
-				clickedPositions.push_back(square.first);
-				emit secondClick(clickedPositions.at(0), clickedPositions.at(1));
+				clickedPositions_.push_back(square.first);
+				board_->moveLogic(clickedPositions_.at(0), clickedPositions_.at(1));
 				break;
 			}
 		}
@@ -112,7 +205,7 @@ void ChessWindow::buttonClicked()
 		resetBoard();
 	}
 
-	else if (clickedPositions.size() == 1 && button->text() != "")
+	else if (clickedPositions_.size() == 1 && button->text() != "")
 	{
 		resetBoard();
 	}
@@ -132,6 +225,74 @@ void graphicinterface::ChessWindow::displayPossibleMoves(std::vector<std::tuple<
 			button->update();
 		}
 	}
+}
+
+void graphicinterface::ChessWindow::displayPlayerTurn(Color color)
+{
+	QString colorStr;
+
+	if (color == Color::WHITE)
+		colorStr = "White";
+	else
+		colorStr = "Black";
+
+	colorStr += "'s turn";
+
+	colorTurnLabel_->setText(colorStr);
+	colorTurnLabel_->update();
+}
+
+void graphicinterface::ChessWindow::connectButtonToTile()
+{
+	for (auto&& tile : board_->getTiles())
+	{
+		QObject::connect(tile, SIGNAL(tileTextModified(std::tuple<char, int>, std::string)), this, SLOT(addPiece(std::tuple<char, int>, std::string)));
+	}
+
+	QObject::connect(board_, SIGNAL(possibleMovesChanged(std::vector<std::tuple<char, int>>)), this, SLOT(displayPossibleMoves(std::vector<std::tuple<char, int>>)));
+	QObject::connect(board_, SIGNAL(turnChanged(Color)), this, SLOT(displayPlayerTurn(Color)));
+}
+
+void ChessWindow::buttonNormalModeClicked()
+{
+	if(board_ != nullptr)
+	{
+		delete board_;
+		resetBoard();
+		clearBoard();
+		updateBoard();
+		delete colorTurnLabel_;
+		addPlayersTurnLabel();
+	}
+
+	board_ = new gamelogic::Board();
+	connectButtonToTile();
+	
+	board_->createPieces();
+	board_->createKings();
+
+	updateBoard();
+}
+
+void ChessWindow::buttonSpecialModeClicked()
+{
+	if (board_ != nullptr)
+	{
+		delete board_;
+		resetBoard();
+		clearBoard();
+		updateBoard();
+
+		delete colorTurnLabel_;
+		addPlayersTurnLabel();
+	}
+
+	board_ = new gamelogic::Board();
+	connectButtonToTile();
+
+	board_->createSpecialSituation();
+
+	updateBoard();
 }
 
 

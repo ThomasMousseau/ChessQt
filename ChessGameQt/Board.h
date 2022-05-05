@@ -13,7 +13,6 @@
 #include <QGraphicsScene>
 #include "Rook.h"
 #include "Bishop.h"
-#include "ChessWindow.h"
 #include "King.h"
 #include "Pawn.h"
 #include "Knight.h"
@@ -25,8 +24,8 @@ namespace gamelogic
 	class Board: public QObject {
 		Q_OBJECT
 	public:
-		Board(); //mettre un bool dans le params du constructeurs  pour savoir si on a une disposition classique ou checkMate
-
+		//Board(); //mettre un bool dans le params du constructeurs  pour savoir si on a une disposition classique ou checkMate
+		Board();
 		std::vector<Tile*> getTiles() const;
 		void createPieces();
 		void possibleMovesFilter(std::vector<std::tuple<char, int>>);
@@ -77,6 +76,7 @@ namespace gamelogic
 		
 		signals:
 			void possibleMovesChanged(std::vector<std::tuple<char, int>> possibleMoves);
+			void turnChanged(Color);
 		
 	private:
 		std::map<std::tuple<char, int>, std::unique_ptr<Tile>> tiles_;

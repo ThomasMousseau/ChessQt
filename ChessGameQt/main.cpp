@@ -6,7 +6,6 @@
 */
 
 #include <QApplication>
-#include "Raii.h"
 #include "ChessWindow.h"
 
 #if __has_include("bibliotheque_cours.hpp")
@@ -21,6 +20,7 @@ auto& cdbg = clog;
 #include "verification_allocation.hpp"
 #include "debogage_memoire.hpp"  //NOTE: Incompatible avec le "placement new", ne pas utiliser cette entête si vous utilisez ce type de "new" dans les lignes qui suivent cette inclusion.
 #endif
+
 
 void initialiserBibliothequeCours([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
 {
@@ -39,50 +39,21 @@ int main(int argc, char *argv[])
 	bibliotheque_cours::VerifierFuitesAllocations verifierFuitesAllocations;
 	QApplication app(argc, argv);
 	initialiserBibliothequeCours(argc, argv);
-
 	QGraphicsScene* scene = new QGraphicsScene();
 	QGraphicsView* view = new QGraphicsView(scene);
 	QBrush* brush = new QBrush(Qt::lightGray, Qt::SolidPattern);
 
-	//ici creation QBOX
+	QHBoxLayout* boxLayout = new QHBoxLayout();
+	boxLayout->setSpacing(0);
+	view->setLayout(boxLayout);
 
 	view->setBackgroundBrush(*brush);
 
-	graphicinterface::ChessWindow chessWindow(scene);
-	gamelogic::Board* board = new gamelogic::Board();
-
-	for(auto&& tile: board->getTiles())
-	{
-		QObject::connect(tile, SIGNAL(tileTextModified(std::tuple<char,int>, std::string)), &chessWindow, SLOT(addPiece(std::tuple<char, int>, std::string)));
-		QObject::connect(&chessWindow, SIGNAL(tileSelected(std::tuple<char, int>)), board, SLOT(checkAllTiles(std::tuple<char, int>)));
-		QObject::connect(&chessWindow, SIGNAL(secondClick(std::tuple<char, int>&, std::tuple<char, int>&)), board, SLOT(moveLogic(std::tuple<char, int>&, std::tuple<char, int>&)));
-	}
-
-	try
-	{
-		if (board->getIsCreatingSpecialSituation()) //Matt tu dois creer un boutton situation classique ou special (si special est appuye, on doit appeler TODO creationSpecialSituation() 
-		{
-			board->createSpecialSituation();
-		}
-		else
-		{
-			board->createPieces();
-			board->createKings();
-		}
-		
-	}
-	catch (TooManyKingsException& e)
-	{
-		QMessageBox messageBox;
-		messageBox.critical(qobject_cast<QWidget*>(scene), "QTERROR", e.what());
-	}
-
-	QObject::connect(board, SIGNAL(possibleMovesChanged(std::vector<std::tuple<char, int>>)), &chessWindow, SLOT(displayPossibleMoves(std::vector<std::tuple<char, int>>)));
+	graphicinterface::ChessWindow chessWindow(boxLayout);
 
 	chessWindow.setCentralWidget(view);
 	chessWindow.show();
 
-	Raii aquisitionBoard(board);
 	Raii aquisitionScene(scene);
 	Raii aquisitionView(view);
 	Raii aquisitionBrush(brush);

@@ -10,14 +10,19 @@
 #include <QMainWindow>
 #include <QGraphicsScene>
 #include <QGraphicsView>
+#include <QButtonGroup>
 #include <QPainter>
+#include "Raii.h"
+#include <QVBoxLayout>
 #include <QBrush>
 #include <QAction>
+#include <qboxlayout.h>
 #include <QMenuBar>
 #include <qmessagebox.h>
 #include "Tile.h"
-#include "Board.h"
+#include <QLabel>
 #include "TooManyKingsException.h"
+#include <Board.h>
 
 #pragma pop()
 
@@ -28,24 +33,34 @@ namespace graphicinterface
         Q_OBJECT
     public:
         ChessWindow(QWidget* parent = nullptr);
-        ChessWindow(QGraphicsScene* scene, QWidget* parent = 0);
+        ChessWindow(QHBoxLayout* layout, QWidget* parent = 0);
+    	void addGameModeLabel();
+        void addGameModeButton();
+        void addPlayersTurnLabel();
+        
         void resetBoard();
+        void updateBoard();
+        void clearBoard();
 
     public slots:
         void addPiece(std::tuple<char, int>, std::string);
     	void buttonClicked();
         void displayPossibleMoves(std::vector<std::tuple<char, int>> possibleMoves);
-
-    	signals:
-            void tileSelected(std::tuple<char, int>);
-            void secondClick(std::tuple<char, int>&, std::tuple<char, int>&);
+        void displayPlayerTurn(Color);
+        void connectButtonToTile();
+        void buttonNormalModeClicked();
+        void buttonSpecialModeClicked();
 
     private:
         void populateBoard();
-        QPushButton* addButton(int, int);
-        QGraphicsScene* scene_;
+        gamelogic::Board* board_;
+    	QPushButton* addButton(int, int);
+        QHBoxLayout* layout_;
+        QVBoxLayout* rightLayout_;
         std::map<std::tuple<char, int>, QPushButton*> squares_;
-        std::vector<std::tuple<char, int>> clickedPositions;
+        std::vector<std::tuple<char, int>> clickedPositions_;
+        QLabel* colorTurnLabel_;
+        QLabel* gameModeLabel_;
     };
 }
 

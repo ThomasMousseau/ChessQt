@@ -16,6 +16,6 @@ public:
 	~King() override = default;
 	std::vector<std::tuple<char, int>> movesAlgorithm(std::tuple<char, int>, Color) override;
 private:
-	static int nInstancesWhite_;
-	static int nInstancesBlack_;
+	int nInstancesWhite_ = 0;
+	int nInstancesBlack_ = 0;
 };
