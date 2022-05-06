@@ -31,6 +31,7 @@ void graphicinterface::ChessWindow::addGameModeLabel()
 	gameModeLabel_->setFont(gameModeFont);
 	gameModeLabel_->setText("Please choose a game mode:");
 	rightLayout_->addWidget(gameModeLabel_, 0, Qt::AlignBottom | Qt::AlignCenter);
+	
 }
 
 void graphicinterface::ChessWindow::addGameModeButton()
@@ -42,6 +43,7 @@ void graphicinterface::ChessWindow::addGameModeButton()
 	buttonModeNormal->setText("Mode Normal");
 	buttonModeNormal->setFixedSize(200, 100);
 	QObject::connect(buttonModeNormal, &QPushButton::clicked, this, &ChessWindow::buttonNormalModeClicked);
+
 
 	QPushButton* buttonModeSpecial = new QPushButton();
 	buttonModeSpecial->setText("Mode Special");
@@ -262,6 +264,12 @@ void graphicinterface::ChessWindow::connectButtonToTile()
 
 void ChessWindow::buttonNormalModeClicked()
 {
+	for (auto&& square : squares_)
+	{
+		square.second->setDisabled(false);
+	}
+
+
 	if(board_ != nullptr)
 	{
 		delete board_;
@@ -283,6 +291,11 @@ void ChessWindow::buttonNormalModeClicked()
 
 void ChessWindow::buttonSpecialModeClicked()
 {
+	for (auto&& square : squares_)
+	{
+		square.second->setDisabled(false);
+	}
+
 	if (board_ != nullptr)
 	{
 		delete board_;
@@ -306,11 +319,16 @@ void graphicinterface::ChessWindow::EndGameMessage()
 {
 	QMessageBox* message = new QMessageBox();
 	message->critical(this, "Won", "We have a winner!");
+
+	for(auto&& square: squares_)
+	{
+		square.second->setDisabled(true);
+	}
 }
 
-void ChessWindow::endGame()
+graphicinterface::ChessWindow::~ChessWindow()
 {
-	
+	delete board_;
 }
 
 

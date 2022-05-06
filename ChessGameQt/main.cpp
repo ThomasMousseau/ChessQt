@@ -42,11 +42,10 @@ int main(int argc, char *argv[])
 	QGraphicsScene* scene = new QGraphicsScene();
 	QGraphicsView* view = new QGraphicsView(scene);
 	QBrush* brush = new QBrush(Qt::lightGray, Qt::SolidPattern);
-
 	QHBoxLayout* boxLayout = new QHBoxLayout();
+
 	boxLayout->setSpacing(0);
 	view->setLayout(boxLayout);
-
 	view->setBackgroundBrush(*brush);
 
 	graphicinterface::ChessWindow chessWindow(boxLayout);

@@ -37,12 +37,13 @@ namespace graphicinterface
     	void addGameModeLabel();
         void addGameModeButton();
         void addPlayersTurnLabel();
+        gamelogic::Board* getBoard() { return board_; }
         
         void resetBoard();
         void updateBoard();
         void clearBoard();
 
-        void endGame();
+        ~ChessWindow() override;
 
     public slots:
         void addPiece(std::tuple<char, int>, std::string);
