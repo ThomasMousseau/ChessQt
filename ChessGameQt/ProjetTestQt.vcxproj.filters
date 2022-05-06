@@ -67,8 +67,8 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="googletest\src\gtest-all.cc" />
-    <ClCompile Include="Rook.h">
-      <Filter>Header Files</Filter>
+    <ClCompile Include="TestChess.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -103,6 +103,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <ClInclude Include="TooManyKingsException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Rooky.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

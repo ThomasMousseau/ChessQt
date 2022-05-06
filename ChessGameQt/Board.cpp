@@ -267,6 +267,7 @@ bool Board::willBeInCheck(const std::tuple<char, int>& nextPosition, Color defen
 
 }
 
+
 bool Board::isBishopMoveValid(const tuple<char, int>& position, const tuple<char, int>& nextPosition)
 {
 	if (isDiagonalMove(position, nextPosition))

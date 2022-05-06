@@ -1,8 +1,10 @@
-ï»¿/*
-* \file   Rook.h
+#pragma once
+
+/*
+* \file   Rooky.h
 * \author Matteo Colavita et Thomas Mousseau
 * \date   25 avril 2022
-* CrÃ©Ã© le 20 avril 2022
+* Créé le 20 avril 2022
 */
 
 #pragma once

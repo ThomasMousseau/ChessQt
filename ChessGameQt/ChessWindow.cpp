@@ -58,11 +58,11 @@ void graphicinterface::ChessWindow::addGameModeButton()
 
 void graphicinterface::ChessWindow::addPlayersTurnLabel()
 {
-	colorTurnLabel_ = new QLabel();
+	colorTurnLabel_ = new QLabel(this);
 
 	if(rightLayout_ == nullptr)
 	{
-		rightLayout_ = new QVBoxLayout();
+		rightLayout_ = new QVBoxLayout(this);
 	}
 	
 	colorTurnLabel_->setText("White's turn");
@@ -82,14 +82,6 @@ QMainWindow(parent), layout_(layout)
 	addGameModeLabel();
 	addGameModeButton();
 	addPlayersTurnLabel();
-
-	/*}
-	catch (TooManyKingsException& e)
-	{
-		QMessageBox messageBox;
-		messageBox.critical(this, "QTERROR", e.what());
-	}*/
-	
 }
 
 void graphicinterface::ChessWindow::resetBoard()

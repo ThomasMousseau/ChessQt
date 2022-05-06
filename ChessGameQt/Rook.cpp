@@ -4,7 +4,7 @@
 * \date   25 avril 2022
 * Créé le 20 avril 2022
 */
-#include "Rook.h"
+#include "Rooky.h"
 
 Rook::Rook(Color color) : Piece(Type::ROOK, color)
 {
