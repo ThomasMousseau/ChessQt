@@ -43,14 +43,14 @@ public:
 		return Color::BLACK;
 	}
 	std::string getPieceSymbol() const { return pieceSymbol_; }
-	int getNTimesMoved() const { return nTimeMoved; }
-	void incrementNTimeMoves() { nTimeMoved++; }
+	int getNTimesMoved() const { return nTimeMoved_; }
+	void incrementNTimeMoves() { nTimeMoved_++; }
 
 protected:
 	Type type_;
 	Color color_;
 	std::tuple<char, int> position_;
 	std::string pieceSymbol_;
-	int nTimeMoved = 0;
+	int nTimeMoved_ = 0;
 };
 

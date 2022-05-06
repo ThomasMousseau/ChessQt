@@ -13,21 +13,6 @@ using namespace gamelogic;
 using namespace std;
 
 
-int Board::ConvertCharToInt(char c)
-{
-	switch (c)
-	{
-		case 'a' : return 1;
-		case 'b': return 2;
-		case 'c': return 3;
-		case 'd': return 4;
-		case 'e': return 5;
-		case 'f': return 6;
-		case 'g': return 7;
-		case 'h': return 8;
-	}
-}
-
 Board::Board()
 {
 	populateTiles();
@@ -111,7 +96,6 @@ void Board::createKings()
 {
 	setPiece(make_tuple('e', 8), make_unique<King>(Color::BLACK));
 	setPiece(make_tuple('e', 1), make_unique<King>(Color::WHITE));
-	//setPiece(make_tuple('g', 5), make_unique<King>(Color::WHITE)); //Exemple Exception trigger
 }
 
 void Board::createPawns()
@@ -145,7 +129,7 @@ unique_ptr<Piece> Board::setPiece(const tuple<char, int>& position, unique_ptr<P
 }
 void Board::movePiece(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition)
 {
-	tiles_[nextPosition]->movePiece(*tiles_[position].get()); //JSP si cette ligne va fonctionner
+	tiles_[nextPosition]->movePiece(*tiles_[position].get());
 	emit tiles_[position]->tileTextModified(position, "");
 }
 
@@ -153,8 +137,7 @@ bool Board::isOnBoard(const tuple<char, int>& coords)
 {
 	if (get<0>(coords) < 'a' || get<0>(coords) > 'h' || get<1>(coords) < 1 || get<1>(coords) > 8)
 		return false;
-	else
-		return true;
+	return true;
 }
 
 bool Board::isOccupied(const tuple<char, int>& coords)
@@ -185,18 +168,15 @@ int Board::getMoveLength(const tuple<char, int>& position, const tuple<char, int
 	{
 		return abs(get<1>(nextPosition) - get<1>(position));
 	}
-	else if (isHorizontalMove(position, nextPosition))
+	if (isHorizontalMove(position, nextPosition))
 	{
 		return abs(get<0>(nextPosition) - get<0>(position));
 	}
-	else if (isDiagonalMove(position, nextPosition))
+	if (isDiagonalMove(position, nextPosition))
 	{
 		return abs(get<0>(nextPosition) - get<0>(position)); 
 	}
-	else
-	{
-		return 0;
-	}
+	return 0;
 }
 
 bool Board::isKingMoveValid(const tuple<char, int>& position, const tuple<char, int>& nextPosition)
@@ -206,16 +186,11 @@ bool Board::isKingMoveValid(const tuple<char, int>& position, const tuple<char, 
 	{
 		if (getMoveLength(position, nextPosition) == 1 && nextMoveIsSafe(nextPosition, defendingColor))
 			return true;
-		else
-			return false;
+		return false;
 	}
-	else
-	{
-		if (getMoveLength(position, nextPosition) == 1)
-			return true;
-		else
-			return false;
-	}
+	if (getMoveLength(position, nextPosition) == 1)
+		return true;
+	return false;
 	
 }
 
@@ -238,12 +213,8 @@ bool Board::nextMoveIsSafe(const tuple<char, int>& nextPosition, Color defending
 			threatsToKing_.push_back(attackingPiece);
 			isSafe =  false;
 		}
-			
 	}
-
 	return isSafe;
-	
-
 }
 
 bool Board::willBeInCheck(const std::tuple<char, int>& nextPosition, Color defendingColor)
@@ -262,9 +233,7 @@ bool Board::willBeInCheck(const std::tuple<char, int>& nextPosition, Color defen
 		if (isValidMove(attackingPiece, nextKingPosition))
 			return true;
 	}
-
 	return false;
-
 }
 
 
@@ -330,7 +299,7 @@ bool Board::isForwardMove(const tuple<char, int>& position, const tuple<char, in
 
 	if (color == Color::BLACK && get<1>(position) > get<1>(nextPosition))
 		return true;
-	else if (color == Color::WHITE && get<1>(position) < get<1>(nextPosition))
+	if (color == Color::WHITE && get<1>(position) < get<1>(nextPosition))
 		return true;
 	return false;
 }
@@ -393,15 +362,9 @@ bool Board::isPawnMoveValid(const tuple<char, int>& position, const tuple<char, 
 					piece->incrementNTimeMoves();
 				return true;
 			}
-			else
-			{
-				return false;
-			}
-		}
-		else
-		{
 			return false;
 		}
+		return false;
 	}
 
 	if (isVerticalMove(position, nextPosition))
@@ -424,11 +387,9 @@ bool Board::isPawnMoveValid(const tuple<char, int>& position, const tuple<char, 
 				piece->incrementNTimeMoves();
 			return true;
 		}
-			
 		else
 			return false;
 	}
-
 	return false;
 }
 
@@ -440,16 +401,14 @@ bool Board::isKnightMove(const std::tuple<char, int>& position, const std::tuple
 
 	if ((verticalDifference == 2 && horizontalDifference == 1) || (verticalDifference == 1 && horizontalDifference == 2))
 		return true;
-	else
-		return false;
+	return false;
 }
 
 bool Board::isKnightMoveValid(const tuple<char, int>& position, const tuple<char, int>& nextPosition)
 {
 	if (isKnightMove(position, nextPosition))
 		return true;
-	else
-		return false;
+	return false;
 }
 
 
@@ -484,22 +443,19 @@ bool Board::isValidMove(const std::tuple<char, int>& position, const std::tuple<
 	Piece* piece = getPiece(position);
 	if (piece == nullptr)
 		return false;
-	else
+
+	switch(piece->getType())
 	{
-		switch(piece->getType())
-		{
-			case Type::BISHOP : return isBishopMoveValid(position, nextPosition);
-			case Type::KING : return isKingMoveValid(position, nextPosition);
-			case Type::ROOK : return isRookMoveValid(position, nextPosition);
-			case Type::QUEEN : return isQueenMoveValid(position, nextPosition);
-			case Type::PAWN : return isPawnMoveValid(position, nextPosition, false);
-			case Type::KNIGHT : return isKnightMoveValid(position, nextPosition);
-			//default case
-		}
+		case Type::BISHOP : return isBishopMoveValid(position, nextPosition);
+		case Type::KING : return isKingMoveValid(position, nextPosition);
+		case Type::ROOK : return isRookMoveValid(position, nextPosition);
+		case Type::QUEEN : return isQueenMoveValid(position, nextPosition);
+		case Type::PAWN : return isPawnMoveValid(position, nextPosition, false);
+		case Type::KNIGHT : return isKnightMoveValid(position, nextPosition);
 	}
 }
 
-void Board::checkAllTiles(const std::tuple<char, int>& position) //green tiles
+void Board::checkAllTiles(const std::tuple<char, int>& position)
 {
 	std::vector<std::tuple<char, int>> tileAccessible;
 	Piece* piece = getPiece(position);
@@ -537,7 +493,6 @@ void Board::checkAllTiles(const std::tuple<char, int>& position) //green tiles
 				if(isKnightMoveValid(position, it->first))
 					tileAccessible.push_back(it->first);
 				break;
-			//default case
 		}
 	}
 	bool allThreatAreSafe = true;
@@ -546,7 +501,7 @@ void Board::checkAllTiles(const std::tuple<char, int>& position) //green tiles
 		if (willBeInCheck(pieceThreats, piece->getOppsiteColor()))
 			allThreatAreSafe = false;
 	}
-	if (piece->getType() == Type::KING && tileAccessible.size() == 0 && allThreatAreSafe) //attaquant soit safe
+	if (piece->getType() == Type::KING && tileAccessible.size() == 0 && allThreatAreSafe)
 			isCheckMate();
 	emit possibleMovesChanged(tileAccessible);
 }
@@ -573,7 +528,6 @@ std::vector<std::tuple<char, int>> Board::getPieceLocations(Color color)
 			pieceLocations.push_back(tile.first);
 		}
 	}
-
 	return pieceLocations;
 }
 
@@ -614,6 +568,5 @@ bool Board::isInCheck(Color defendingColor)
 		if (isValidMove(attackingPiece, kingPosition))
 			return true;
 	}
-
 	return false;
 }

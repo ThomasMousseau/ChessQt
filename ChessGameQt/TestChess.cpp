@@ -13,4 +13,22 @@ TEST(Board, simple) {
 	delete board;
 }
 
+
+TEST(Board, test2) {
+	using namespace gamelogic;
+	Board* board = new Board();
+	board->createPieces();
+	EXPECT_EQ(board->getPiece(std::make_tuple('c', 7))->getType(), Type::PAWN);
+	delete board;
+}
+
+TEST(Board, test3) {
+	using namespace gamelogic;
+	Board* board = new Board();
+	board->createPieces();
+	EXPECT_EQ(board->getPiece(std::make_tuple('c', 7))->getType(), Type::PAWN);
+	delete board;
+}
+
+
 #endif

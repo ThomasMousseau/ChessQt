@@ -14,6 +14,5 @@ public:
 	Pawn(Color);
 	~Pawn() override = default;
 private:
-
 };
 

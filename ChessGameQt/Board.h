@@ -59,12 +59,10 @@ namespace gamelogic
 		bool isInCheck(Color defendingColor);
 		bool willBeInCheck(const std::tuple<char, int>& nextPosition, Color defendingColor);
 
-
 	public slots:
 			void checkAllTiles(const std::tuple<char, int>& position);
 			void moveLogic(std::tuple<char, int>& position, std::tuple<char, int>& nextPosition);
 
-		
 		signals:
 			void possibleMovesChanged(std::vector<std::tuple<char, int>> possibleMoves);
 			void turnChanged(Color);
@@ -82,8 +80,5 @@ namespace gamelogic
 		std::vector<std::tuple<char, int>> threatsToKing_;
 		bool isCreationSpecialSituation = false;
 		int moveNumber_ = 0; 
-
-
-		
 	};
 }
