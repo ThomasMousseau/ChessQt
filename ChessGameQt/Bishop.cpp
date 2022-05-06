@@ -15,31 +15,5 @@ Bishop::Bishop(Color color) : Piece(Type::BISHOP, color)
 		pieceSymbol_ = "♝";
 }
 
-std::vector<std::tuple<char, int>> Bishop::movesAlgorithm(std::tuple<char, int> coords, Color color)
-{
-
-	std::vector<std::tuple<char, int>> possibleMovesVect;
-
-	int pos = std::get<1>(coords) % 2;
-
-	switch (color)
-	{
-	case Color::BLACK:
-
-		
-
-		break;
-
-	case Color::WHITE:
-
-
-		break;
-
-	default:
-		break;
-	}
-
-	return possibleMovesVect;
-}
 
 

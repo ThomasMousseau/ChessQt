@@ -14,7 +14,6 @@ class King : public Piece
 public:
 	King(Color);
 	~King() override = default;
-	std::vector<std::tuple<char, int>> movesAlgorithm(std::tuple<char, int>, Color) override;
 private:
 	int nInstancesWhite_ = 0;
 	int nInstancesBlack_ = 0;

@@ -13,7 +13,6 @@ class Pawn: public Piece
 public:
 	Pawn(Color);
 	~Pawn() override = default;
-	std::vector<std::tuple<char, int>> movesAlgorithm(std::tuple<char, int>, Color) override;
 private:
 
 };

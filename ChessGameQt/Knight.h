@@ -12,6 +12,5 @@ class Knight : public Piece
 public:
 	Knight(Color c);
 	~Knight() override = default;
-	std::vector<std::tuple<char, int>> movesAlgorithm(std::tuple<char, int>, Color) override;
 };
 

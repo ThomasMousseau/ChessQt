@@ -30,7 +30,6 @@ namespace gamelogic
 		void createPieces();
 		void possibleMovesFilter(std::vector<std::tuple<char, int>>);
 		bool isOccupiedSameColor(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition);
-
 		bool isOnBoard(const std::tuple<char, int>& position);
 		bool isOccupied(const std::tuple<char, int>& position);
 		bool isOccupiedDifferentColor(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition);
@@ -44,39 +43,31 @@ namespace gamelogic
 		int ConvertCharToInt(char c);
 		Piece* getPiece(const std::tuple<char, int>& position);
 		bool isPathValid(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition);
-
 		bool isKingMoveValid(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition);
 		bool isRookMoveValid(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition);
 		bool isBishopMoveValid(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition);
 		bool isQueenMoveValid(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition);
 		bool isPawnMoveValid(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition, bool isSimulated);
 		bool isKnightMoveValid(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition);
-
 		void createKings();
 		void movePiece(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition);
 		bool isValidMove(const std::tuple<char, int>& position, const std::tuple<char, int>& nextPosition);
 		bool nextMoveIsSafe(const std::tuple<char, int>& nextPosition, Color defendingColor);
-		
 		void resetAllTiles();
 		std::tuple<char, int> getKingLocation(Color);
 		std::vector<std::tuple<char, int>> getPieceLocations(Color);
 		void createSpecialSituation();
-
 		int getMoveNumber() { return moveNumber_; }
-
 		bool getIsCreatingSpecialSituation() { return isCreationSpecialSituation; }
 		void creationSpecialSituation() { isCreationSpecialSituation = true; }
-
 		Color getTurn() const;
-
 		void isCheckMate();
 		bool isInCheck(Color defendingColor);
 		bool willBeInCheck(const std::tuple<char, int>& nextPosition, Color defendingColor);
 
 	public slots:
-		//void findValidMoves(std::tuple<char, int>);
-		void checkAllTiles(const std::tuple<char, int>& position);
-		void moveLogic(std::tuple<char, int>& position, std::tuple<char, int>& nextPosition);
+			void checkAllTiles(const std::tuple<char, int>& position);
+			void moveLogic(std::tuple<char, int>& position, std::tuple<char, int>& nextPosition);
 
 		
 		signals:

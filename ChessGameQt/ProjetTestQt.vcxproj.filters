@@ -68,7 +68,7 @@
     </ClCompile>
     <ClCompile Include="googletest\src\gtest-all.cc" />
     <ClCompile Include="Rook.h">
-      <Filter>Generated Files</Filter>
+      <Filter>Header Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -17,16 +17,11 @@ public:
 	std::unique_ptr<Piece> setPiece(std::unique_ptr<Piece> piece);
 	Piece* getPiece();
 	void movePiece(Tile& prochaineTile);
-	void indeedValidMove() { isValidMove = true; }
-	void notValidMove() { isValidMove = false; }
 
 	signals:
 		void tileTextModified(std::tuple<char, int>, std::string);
 
-
 private:
 	std::unique_ptr<Piece> pieceOnTile_ = nullptr;
 	std::tuple<char, int> position_;
-	bool isValidMove = false;
-
 };
