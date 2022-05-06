@@ -36,6 +36,12 @@ public:
 
 	Type getType() const { return type_; }
 	Color getColor() const { return color_; }
+	Color getOppsiteColor() const
+	{
+		if (color_ == Color::BLACK)
+			return Color::WHITE;
+		return Color::BLACK;
+	}
 	std::string getPieceSymbol() const { return pieceSymbol_; }
 	int getNTimesMoved() const { return nTimeMoved; }
 	void incrementNTimeMoves() { nTimeMoved++; }
