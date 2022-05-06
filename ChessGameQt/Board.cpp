@@ -12,7 +12,6 @@
 using namespace gamelogic;
 using namespace std;
 
-
 Board::Board()
 {
 	populateTiles();

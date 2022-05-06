@@ -51,6 +51,7 @@ int main(int argc, char *argv[])
 	graphicinterface::ChessWindow chessWindow(boxLayout);
 
 	chessWindow.setCentralWidget(view);
+	chessWindow.setWindowState(Qt::WindowMaximized);
 	chessWindow.show();
 
 	Raii aquisitionScene(scene);
